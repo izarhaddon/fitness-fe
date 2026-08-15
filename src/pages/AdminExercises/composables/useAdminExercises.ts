@@ -1,23 +1,25 @@
 import { ref } from 'vue'
 import { api } from '@/utils/api'
+import type { Exercise, GetExercisesResponse } from '@/types'
 
 export const useAdminExercisesPage = () => {
-  const table = ref([])
+  const table = ref<Exercise[]>([])
   const isLoading = ref(false)
 
-  async function getTable() {
+  async function getTable(): Promise<void> {
     isLoading.value = true
+
     try {
-      const response = await api.get('/api/exercises')
+      const response = await api.get<GetExercisesResponse>('/api/exercises')
       table.value = response.data
-    } catch (err) {
-      console.error(err)
+    } catch (error) {
+      console.error(error)
     } finally {
       isLoading.value = false
     }
   }
 
-  getTable()
+  void getTable()
 
   return {
     table,

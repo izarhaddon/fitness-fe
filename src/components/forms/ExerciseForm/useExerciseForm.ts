@@ -1,44 +1,52 @@
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { api } from '@/utils/api.ts'
+import type { Exercise } from '@/types'
+import type { AxiosResponse } from 'axios'
 
-interface UseExerciseFormInterface {
-  name: string;
-  description: string;
-  reps: number,
-  sets: number,
-  weight: number,
-  isActive: boolean,
-}
-
-interface UseExerciseFormProps extends UseExerciseFormInterface {}
-
-interface UseExerciseFormPayload {
-  form: UseExerciseFormInterface;
-  onSubmit: (payload: SubmitEvent) => void;
-}
-
-export const useExerciseForm = (props?: UseExerciseFormProps): UseExerciseFormPayload => {
-  const form = reactive({
-    name: props?.name ?? '',
-    description: props?.description ?? '',
-    reps: props?.reps ?? 0,
-    sets: props?.sets ?? 0,
-    weight: props?.weight ?? 0,
-    isActive: props?.isActive ?? true,
+export const useExerciseForm = () => {
+  const form = reactive<Exercise>({
+    id: undefined,
+    name: '',
+    description: '',
+    repetitions: 0,
+    sets: 0,
+    weight: 0,
+    isActive: true,
+    createdAt: undefined,
+    updatedAt: undefined,
+    muscleGroupId: []
   })
+  const isLoading = ref<boolean>(false)
 
-  function onSubmit() {
+  async function getExerciseById(id: number) {
+    isLoading.value = true
+
     try {
-      const data = api.post('/api/exercises', {...form})
-      console.log('data', data)
+      const response = await api.get<AxiosResponse<Exercise>>(`/api/exercises/${id}`)
+      Object.assign(form, response.data)
     }
     catch (error) {
       console.error(error)
     }
     finally {
-      console.log('finally')
+      isLoading.value = false
     }
   }
 
-  return { form, onSubmit }
+  async function onSubmit() {
+    isLoading.value = true
+
+    try {
+      const response = await api.post<AxiosResponse<Exercise>>('/api/exercises', {...form})
+      Object.assign(form, response.data)
+    }
+    catch (error) {
+      console.error(error)
+    }
+    finally {
+      isLoading.value = false
+    }
+  }
+
+  return { form, getExerciseById, onSubmit }
 }
