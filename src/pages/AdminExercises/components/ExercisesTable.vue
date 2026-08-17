@@ -9,8 +9,8 @@ function changeRouter(exerciseId: number | undefined) {
   router.push({
     name: 'AdminExercise',
     params: {
-      exerciseId
-    }
+      exerciseId,
+    },
   })
 }
 </script>
@@ -19,21 +19,27 @@ function changeRouter(exerciseId: number | undefined) {
   <div>
     <table>
       <thead>
-      <tr>
-        <td>name</td>
-        <td>description</td>
-      </tr>
+        <tr>
+          <td>name</td>
+          <td>description</td>
+        </tr>
       </thead>
       <tbody>
-      <tr v-for="row in table" :key="row.id" @click="changeRouter(row.id)">
-        <td>{{ row.name }}</td>
-        <td>{{ row.description }}</td>
-      </tr>
+        <tr
+          v-for="row in table"
+          :key="row.id"
+          @click="changeRouter(row.id)"
+        >
+          <td>
+            {{ row.name }}
+          </td>
+          <td>
+            {{ row.description }}
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,6 +1,9 @@
 import { ref } from 'vue'
 import { api } from '@/utils/api'
-import type { Exercise, GetExercisesResponse } from '@/types'
+import type {
+  Exercise,
+  GetExercisesResponse,
+} from '@/types'
 
 export const useAdminExercisesPage = () => {
   const table = ref<Exercise[]>([])
@@ -12,9 +15,11 @@ export const useAdminExercisesPage = () => {
     try {
       const response = await api.get<GetExercisesResponse>('/api/exercises')
       table.value = response.data
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error)
-    } finally {
+    }
+    finally {
       isLoading.value = false
     }
   }

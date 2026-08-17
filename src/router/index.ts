@@ -1,4 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHistory,
+} from 'vue-router'
 import HomePage from '@/pages/HomePage.vue'
 import AdminExercise from '@/pages/AdminExercise/AdminExercise.vue'
 import AdminExercises from '@/pages/AdminExercises/AdminExercises.vue'
@@ -13,7 +16,9 @@ const router = createRouter({
     },
     {
       path: '/admin',
-      redirect: { name: 'AdminExercises' },
+      redirect: {
+        name: 'AdminExercises',
+      },
     },
     {
       path: '/admin/exercises',
@@ -24,7 +29,7 @@ const router = createRouter({
       path: '/admin/exercises/:exerciseId',
       name: 'AdminExercise',
       component: AdminExercise,
-    }
+    },
   ],
 })
 
