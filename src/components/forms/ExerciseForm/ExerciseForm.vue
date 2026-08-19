@@ -3,10 +3,9 @@ import { useExerciseForm } from './useExerciseForm.ts'
 import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 const route = useRoute()
-const exerciseForm = useExerciseForm()
 const {
   form, getExerciseById, onSubmit,
-} = exerciseForm
+} = useExerciseForm()
 
 onMounted(() => {
   const exerciseId = route.params.exerciseId ? Number(route.params.exerciseId) : undefined
@@ -80,7 +79,7 @@ onMounted(() => {
       >
         {{ route.params.exerciseId ? 'Update Exercise' : 'Create Exercise' }}
       </button>
-      <router-link :to="{ name: 'AdminExercises' }"> Cancel </router-link>
+      <router-link :to="{ name: 'Exercises' }"> Cancel </router-link>
     </div>
   </form>
 </template>

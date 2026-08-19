@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { useAdminExercisesPage } from '@/pages/AdminExercises/composables/useAdminExercises.ts'
+import { useAdminExercisesPage } from '@/pages/Exercises/composables/useExercises.ts'
 import { useRouter } from 'vue-router'
-const adminExercises = useAdminExercisesPage()
-const { table } = adminExercises
+const {
+  table, getTable,
+} = useAdminExercisesPage()
 const router = useRouter()
+
+getTable()
 
 function changeRouter(exerciseId: number | undefined) {
   router.push({
-    name: 'AdminExercise',
+    name: 'Exercise',
     params: {
       exerciseId,
     },

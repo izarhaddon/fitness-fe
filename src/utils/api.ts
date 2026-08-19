@@ -1,6 +1,9 @@
+import { useRouter } from 'vue-router'
+
 import axios, {
   type AxiosInstance,
   type AxiosRequestConfig,
+  type InternalAxiosRequestConfig,
 } from 'axios'
 
 const config: AxiosRequestConfig = {
@@ -9,12 +12,32 @@ const config: AxiosRequestConfig = {
 
 export const api: AxiosInstance = axios.create(config)
 
-api.interceptors.response.use(
-  res => res,
-  (err) => {
-    if (err.response?.status === 401) {
-      // можно дёрнуть logout через глобальный event или singleton store
+function unauthorized() {
+  localStorage.removeItem('token')
+  localStorage.removeItem('user')
+
+  window.location.assign('/login')
+}
+
+api.interceptors.request.use(
+  (request: InternalAxiosRequestConfig) => {
+    const token = localStorage.getItem('token')
+
+    if (token && request.headers) {
+      request.headers.Authorization = `Bearer ${token}`
     }
-    return Promise.reject(err)
+
+    return request
+  },
+  error => Promise.reject(error),
+)
+
+api.interceptors.response.use(
+  response => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // unauthorized()
+    }
+    return Promise.reject(error)
   },
 )

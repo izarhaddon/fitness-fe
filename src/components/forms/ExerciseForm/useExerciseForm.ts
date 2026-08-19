@@ -3,7 +3,10 @@ import {
   ref,
 } from 'vue'
 import { api } from '@/utils/api.ts'
-import type { Exercise } from '@/types'
+import type {
+  Exercise,
+  GetExerciseResponse,
+} from '@/types'
 import type { AxiosResponse } from 'axios'
 
 export const useExerciseForm = () => {
@@ -21,11 +24,11 @@ export const useExerciseForm = () => {
   })
   const isLoading = ref<boolean>(false)
 
-  async function getExerciseById(id: number) {
+  async function getExerciseById(exerciseId: number) {
     isLoading.value = true
 
     try {
-      const response = await api.get<AxiosResponse<Exercise>>(`/api/exercises/${id}`)
+      const response = await api.get<GetExerciseResponse>(`/api/exercises/${exerciseId}`)
       Object.assign(
         form,
         response.data,
@@ -43,12 +46,19 @@ export const useExerciseForm = () => {
     isLoading.value = true
 
     try {
-      const response = await api.post<AxiosResponse<Exercise>>(
-        '/api/exercises',
-        {
-          ...form,
-        },
-      )
+      const response = form.id
+        ? await api.put<AxiosResponse<Exercise>>(
+            `/api/exercises/${form.id}`,
+            {
+              ...form,
+            },
+          )
+        : await api.post<AxiosResponse<Exercise>>(
+            '/api/exercises',
+            {
+              ...form,
+            },
+          )
       Object.assign(
         form,
         response.data,
