@@ -3,7 +3,7 @@ import router from '@/router'
 
 function changeRouter() {
   router.push({
-    name: 'ExerciseCreate',
+    name: 'ExerciseCreatePage',
   })
 }
 </script>

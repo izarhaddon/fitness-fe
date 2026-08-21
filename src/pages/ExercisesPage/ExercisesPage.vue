@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ExercisesTable from '@/pages/Exercises/components/ExercisesTable.vue'
-import ExerciseCreateButton from '@/pages/Exercises/components/ExerciseCreateButton.vue'
+import ExercisesTable from '@/pages/ExercisesPage/components/ExercisesTable.vue'
+import ExerciseCreateButton from '@/pages/ExercisesPage/components/ExerciseCreateButton.vue'
 </script>
 
 <template>

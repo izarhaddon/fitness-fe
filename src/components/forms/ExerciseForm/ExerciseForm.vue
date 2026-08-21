@@ -79,7 +79,7 @@ onMounted(() => {
       >
         {{ route.params.exerciseId ? 'Update Exercise' : 'Create Exercise' }}
       </button>
-      <router-link :to="{ name: 'Exercises' }"> Cancel </router-link>
+      <router-link :to="{ name: 'ExercisesPage' }"> Cancel </router-link>
     </div>
   </form>
 </template>

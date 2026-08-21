@@ -3,14 +3,14 @@ import {
   createWebHistory,
 } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue'
-import Login from '@/pages/Login/Login.vue'
-import Registration from '@/pages/Registration/Registration.vue'
-import Exercise from '@/pages/Exercise/Exercise.vue'
-import ExerciseCreate from '@/pages/ExerciseCreate/ExerciseCreate.vue'
-import Workouts from '@/pages/Workouts/Workouts.vue'
-import Workout from '@/pages/Workout/Workout.vue'
-import WorkoutCreate from '@/pages/WorkoutCreate/WorkoutCreate.vue'
-import Exercises from '@/pages/Exercises/Exercises.vue'
+import LoginPage from '@/pages/LoginPage/LoginPage.vue'
+import RegistrationPage from '@/pages/RegistrationPage/RegistrationPage.vue'
+import ExercisePage from '@/pages/ExercisePage/ExercisePage.vue'
+import ExerciseCreatePage from '@/pages/ExerciseCreatePage/ExerciseCreatePage.vue'
+import WorkoutsPage from '@/pages/WorkoutsPage/WorkoutsPage.vue'
+import WorkoutPage from '@/pages/WorkoutPage/WorkoutPage.vue'
+import WorkoutCreatePage from '@/pages/WorkoutCreatePage/WorkoutCreatePage.vue'
+import ExercisesPage from '@/pages/ExercisesPage/ExercisesPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,43 +22,43 @@ const router = createRouter({
     },
     {
       path: '/login',
-      name: 'Login',
-      component: Login,
+      name: 'LoginPage',
+      component: LoginPage,
     },
     {
       path: '/workouts',
-      name: 'Workouts',
-      component: Workouts,
+      name: 'WorkoutsPage',
+      component: WorkoutsPage,
     },
     {
       path: '/workouts/create',
-      name: 'WorkoutCreate',
-      component: WorkoutCreate,
+      name: 'WorkoutCreatePage',
+      component: WorkoutCreatePage,
     },
     {
       path: '/workouts/:workoutId',
       name: 'Workout',
-      component: Workout,
+      component: WorkoutPage,
     },
     {
       path: '/registration',
-      name: 'Registration',
-      component: Registration,
+      name: 'RegistrationPage',
+      component: RegistrationPage,
     },
     {
       path: '/exercises',
-      name: 'Exercises',
-      component: Exercises,
+      name: 'ExercisesPage',
+      component: ExercisesPage,
     },
     {
       path: '/exercises/create',
-      name: 'ExerciseCreate',
-      component: ExerciseCreate,
+      name: 'ExerciseCreatePage',
+      component: ExerciseCreatePage,
     },
     {
       path: '/exercises/:exerciseId',
       name: 'Exercise',
-      component: Exercise,
+      component: ExercisePage,
     },
   ],
 })

@@ -9,8 +9,10 @@ import type {
 } from '@/types'
 import type { AxiosResponse } from 'axios'
 
+type ExerciseForm = Exercise
+
 export const useExerciseForm = () => {
-  const form = reactive<Exercise>({
+  const form = reactive<ExerciseForm>({
     id: undefined,
     name: '',
     description: '',
@@ -20,7 +22,8 @@ export const useExerciseForm = () => {
     isActive: true,
     createdAt: undefined,
     updatedAt: undefined,
-    muscleGroupId: [],
+    muscleGroupId: null,
+    muscleGroup: null,
   })
   const isLoading = ref<boolean>(false)
 
@@ -28,7 +31,7 @@ export const useExerciseForm = () => {
     isLoading.value = true
 
     try {
-      const response = await api.get<GetExerciseResponse>(`/api/exercises/${exerciseId}`)
+      const response = await api.get<GetExerciseResponse>(`/api/auth/exercises/${exerciseId}`)
       Object.assign(
         form,
         response.data,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useWorkouts from '@/pages/Workouts/composables/useWorkouts.ts'
+import useWorkouts from '@/pages/WorkoutsPage/composables/useWorkouts.ts'
 import router from '@/router'
 
 const {

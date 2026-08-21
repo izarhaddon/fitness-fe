@@ -21,7 +21,7 @@ export const useLoginForm = () => {
 
     try {
       const response = await api.post(
-        '/api/login',
+        '/api/auth/login',
         {
           ...form,
         },

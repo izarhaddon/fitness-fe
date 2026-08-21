@@ -33,7 +33,7 @@ export const useRegistrationForm = () => {
     isLoading.value = true
     try {
       const response = await api.post(
-        `/api/registration`,
+        `/api/auth/registration`,
         {
           email: form.email,
           password: form.password,

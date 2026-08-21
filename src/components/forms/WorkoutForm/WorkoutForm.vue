@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useWorkoutForm } from '@/components/forms/WorkoutForm/useWorkoutForm.tsx'
+import { useWorkoutForm } from '@/components/forms/WorkoutForm/composables/useWorkoutForm.tsx'
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 const route = useRoute()

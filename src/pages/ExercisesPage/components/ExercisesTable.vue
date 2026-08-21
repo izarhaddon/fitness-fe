@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAdminExercisesPage } from '@/pages/Exercises/composables/useExercises.ts'
+import { useAdminExercisesPage } from '@/pages/ExercisesPage/composables/useExercises.ts'
 import { useRouter } from 'vue-router'
 const {
   table, getTable,

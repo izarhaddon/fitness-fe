@@ -1,10 +1,10 @@
 <script setup lang="ts"></script>
 
 <template>
-  <RouterLink :to="{ name: 'Login' }">Login</RouterLink>
-  <RouterLink :to="{ name: 'Registration' }">Registration</RouterLink>
-  <RouterLink :to="{ name: 'Exercises' }">Exercises</RouterLink>
-  <RouterLink :to="{ name: 'Workouts' }">Workouts</RouterLink>
+  <RouterLink :to="{ name: 'LoginPage' }">Login</RouterLink>
+  <RouterLink :to="{ name: 'RegistrationPage' }">Registration</RouterLink>
+  <RouterLink :to="{ name: 'ExercisesPage' }">Exercises</RouterLink>
+  <RouterLink :to="{ name: 'WorkoutsPage' }">Workouts</RouterLink>
 </template>
 
 <style scoped></style>
