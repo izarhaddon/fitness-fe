@@ -40,6 +40,8 @@ export const useRegistrationForm = () => {
           role: form.role,
         },
       )
+
+      console.log(response.data)
     }
     catch (error) {
       console.log(error)

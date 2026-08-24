@@ -5,10 +5,12 @@ import {
 import HomePage from '@/pages/HomePage.vue'
 import LoginPage from '@/pages/LoginPage/LoginPage.vue'
 import RegistrationPage from '@/pages/RegistrationPage/RegistrationPage.vue'
+import ExerciseEditPage from '@/pages/ExerciseEditPage/ExerciseEditPage.vue'
 import ExercisePage from '@/pages/ExercisePage/ExercisePage.vue'
 import ExerciseCreatePage from '@/pages/ExerciseCreatePage/ExerciseCreatePage.vue'
 import WorkoutsPage from '@/pages/WorkoutsPage/WorkoutsPage.vue'
 import WorkoutPage from '@/pages/WorkoutPage/WorkoutPage.vue'
+import WorkoutEditPage from '@/pages/WorkoutEditPage/WorkoutEditPage.vue'
 import WorkoutCreatePage from '@/pages/WorkoutCreatePage/WorkoutCreatePage.vue'
 import ExercisesPage from '@/pages/ExercisesPage/ExercisesPage.vue'
 
@@ -41,6 +43,11 @@ const router = createRouter({
       component: WorkoutPage,
     },
     {
+      path: '/workouts/:workoutId/edit',
+      name: 'WorkoutEdit',
+      component: WorkoutEditPage,
+    },
+    {
       path: '/registration',
       name: 'RegistrationPage',
       component: RegistrationPage,
@@ -60,11 +67,12 @@ const router = createRouter({
       name: 'Exercise',
       component: ExercisePage,
     },
+    {
+      path: '/exercises/:exerciseId/edit',
+      name: 'ExerciseEdit',
+      component: ExerciseEditPage,
+    },
   ],
-})
-
-router.beforeEach((to, from) => {
-
 })
 
 export default router

@@ -1,15 +1,19 @@
+<!-- src/components/forms/WorkoutForm/WorkoutForm.vue -->
+
 <script setup lang="ts">
-import { useWorkoutForm } from '@/components/forms/WorkoutForm/composables/useWorkoutForm.tsx'
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useWorkoutForm } from '@/components/forms/WorkoutForm/composables/useWorkoutForm'
+import WorkoutFormExercisesTables from '@/components/forms/WorkoutForm/components/WorkoutFormExercisesTables.vue'
+
 const route = useRoute()
 
 const {
-  form, onSubmit, getWorkoutById,
+  form, onSubmit, getWorkoutById, isLoading, error,
 } = useWorkoutForm()
 
 onMounted(() => {
-  const workoutId = route.params.workoutId ? Number(route.params.workoutId) : undefined
+  const workoutId = route.params.workoutId ? route.params.workoutId.toString() : undefined
   if (workoutId) {
     getWorkoutById(workoutId)
   }
@@ -18,33 +22,45 @@ onMounted(() => {
 
 <template>
   <form @submit.prevent="onSubmit">
+    <div
+      v-if="error"
+      style="color: red; margin-bottom: 1rem"
+    >
+      {{ error }}
+    </div>
+
     <div>
-      <label for="name">name</label>
+      <label for="name">Название тренировки</label>
       <input
         id="name"
         v-model="form.name"
         name="name"
         type="text"
         required
+        :disabled="isLoading"
       />
     </div>
 
     <div>
-      <label for="description">description</label>
+      <label for="description">Описание</label>
       <textarea
         id="description"
         v-model="form.description"
         name="description"
         rows="4"
+        :disabled="isLoading"
       />
     </div>
 
-    <div>
+    <!-- Передаем массив упражнений формы -->
+    <WorkoutFormExercisesTables v-model:exercises="form.exercises" />
+
+    <div style="margin-top: 1rem">
       <button
         type="submit"
-        :disabled="!form.name"
+        :disabled="!form.name || isLoading"
       >
-        submit
+        {{ isLoading ? 'Сохранение...' : 'Сохранить тренировку' }}
       </button>
     </div>
   </form>

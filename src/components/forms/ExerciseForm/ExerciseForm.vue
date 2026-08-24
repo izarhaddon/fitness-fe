@@ -8,9 +8,9 @@ const {
 } = useExerciseForm()
 
 onMounted(() => {
-  const exerciseId = route.params.exerciseId ? Number(route.params.exerciseId) : undefined
+  const exerciseId = route.params.exerciseId
   if (exerciseId) {
-    getExerciseById(exerciseId)
+    getExerciseById(`${exerciseId}`)
   }
 })
 </script>
@@ -35,40 +35,6 @@ onMounted(() => {
         v-model="form.description"
         name="description"
         rows="4"
-      />
-    </div>
-
-    <div>
-      <label for="repetitions">Repetitions</label>
-      <input
-        id="repetitions"
-        v-model.number="form.repetitions"
-        name="repetitions"
-        type="number"
-        min="0"
-      />
-    </div>
-
-    <div>
-      <label for="sets">Sets</label>
-      <input
-        id="sets"
-        v-model.number="form.sets"
-        name="sets"
-        type="number"
-        min="0"
-      />
-    </div>
-
-    <div>
-      <label for="weight">Weight (kg)</label>
-      <input
-        id="weight"
-        v-model.number="form.weight"
-        name="weight"
-        type="number"
-        min="0"
-        step="0.1"
       />
     </div>
 

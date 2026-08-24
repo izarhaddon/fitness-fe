@@ -1,8 +1,7 @@
-import {
-  reactive,
-  ref,
-} from 'vue'
-import { api } from '@/utils/api.ts'
+// src/components/forms/LoginForm/useLoginForm.ts
+
+import { reactive } from 'vue'
+import { useAuth } from '@/composables/useAuth' // Импортируем главный комposable авторизации
 
 interface LoginForm {
   email: string
@@ -14,33 +13,37 @@ export const useLoginForm = () => {
     email: '',
     password: '',
   })
-  const isLoading = ref(false)
+
+  // Берем состояние и методы из useAuth.
+  // Не дублируем isLoading и error!
+  const {
+    login, isLoading, error,
+  } = useAuth()
 
   async function onSubmit() {
-    isLoading.value = true
-
     try {
-      const response = await api.post(
-        '/api/auth/login',
-        {
-          ...form,
-        },
+      // Делегируем реальную работу useAuth.
+      // Он сам сделает запрос, сохранит токен в localStorage и обновит user.
+      await login(
+        form.email,
+        form.password,
       )
-      localStorage.setItem(
-        'token',
-        response.data.token,
-      )
+
+      // Если код дошел сюда, значит вход успешен.
+      // Очищаем форму (редирект лучше делать в самом Vue-компоненте через useRouter)
+      form.email = ''
+      form.password = ''
     }
-    catch (error) {
-      console.error(error)
-    }
-    finally {
-      isLoading.value = false
+    catch {
+      // Ошибка уже записана в error.value внутри useAuth.
+      // Здесь можно добавить специфичную для формы логику, если нужно.
     }
   }
 
   return {
     form,
+    isLoading, // Пробрасываем, чтобы кнопка могла показать спиннер
+    error, // Пробрасываем, чтобы компонент мог показать текст ошибки
     onSubmit,
   }
 }

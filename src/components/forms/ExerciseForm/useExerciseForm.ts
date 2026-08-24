@@ -1,44 +1,50 @@
+// src/components/forms/ExerciseForm/useExerciseForm.ts
+
 import {
   reactive,
   ref,
 } from 'vue'
-import { api } from '@/utils/api.ts'
-import type {
-  Exercise,
-  GetExerciseResponse,
-} from '@/types'
-import type { AxiosResponse } from 'axios'
+import { api } from '@/utils/api'
+import type { Exercise } from '@/types'
 
-type ExerciseForm = Exercise
+// Форма содержит только те поля, которые есть в справочнике Exercise
+// и которые мы можем отправлять на бэкенд (согласно CreateExerciseInput / UpdateExerciseInput)
+type ExerciseForm = {
+  id?: string
+  name: string
+  description: string | null
+  isActive: boolean
+}
 
 export const useExerciseForm = () => {
   const form = reactive<ExerciseForm>({
     id: undefined,
     name: '',
-    description: '',
-    repetitions: 0,
-    sets: 0,
-    weight: 0,
+    description: null,
     isActive: true,
-    createdAt: undefined,
-    updatedAt: undefined,
-    muscleGroupId: null,
-    muscleGroup: null,
   })
-  const isLoading = ref<boolean>(false)
 
-  async function getExerciseById(exerciseId: number) {
+  const isLoading = ref<boolean>(false)
+  const error = ref<string | null>(null)
+
+  async function getExerciseById(exerciseId: string) {
     isLoading.value = true
+    error.value = null
 
     try {
-      const response = await api.get<GetExerciseResponse>(`/api/auth/exercises/${exerciseId}`)
+      // Исправлен URL и тип ID (string, а не number)
+      const response = await api.get<Exercise>(`/api/exercises/${exerciseId}`)
       Object.assign(
         form,
         response.data,
       )
     }
-    catch (error) {
-      console.error(error)
+    catch (err) {
+      console.error(
+        'Ошибка при загрузке упражнения:',
+        err,
+      )
+      error.value = 'Не удалось загрузить данные упражнения'
     }
     finally {
       isLoading.value = false
@@ -47,37 +53,66 @@ export const useExerciseForm = () => {
 
   async function onSubmit() {
     isLoading.value = true
+    error.value = null
 
     try {
-      const response = form.id
-        ? await api.put<AxiosResponse<Exercise>>(
-            `/api/exercises/${form.id}`,
-            {
-              ...form,
-            },
-          )
-        : await api.post<AxiosResponse<Exercise>>(
-            '/api/exercises',
-            {
-              ...form,
-            },
-          )
+      // Отправляем только те поля, которые ожидает Zod-схема на бэкенде
+      const payload = {
+        name: form.name,
+        description: form.description,
+        isActive: form.isActive,
+      }
+
+      let response
+      if (form.id) {
+        // Исправлена типизация Axios: указываем тип данных ответа, а не AxiosResponse
+        response = await api.put<Exercise>(
+          `/api/exercises/${form.id}`,
+          payload,
+        )
+      }
+      else {
+        response = await api.post<Exercise>(
+          '/api/exercises',
+          payload,
+        )
+      }
+
+      // Обновляем форму данными с бэкенда (например, чтобы получить сгенерированный id и даты)
       Object.assign(
         form,
         response.data,
       )
+
+      return response.data
     }
-    catch (error) {
-      console.error(error)
+    catch (err) {
+      console.error(
+        'Ошибка при сохранении упражнения:',
+        err,
+      )
+      error.value = 'Не удалось сохранить упражнение'
+      throw err
     }
     finally {
       isLoading.value = false
     }
   }
 
+  function resetForm() {
+    form.id = undefined
+    form.name = ''
+    form.description = null
+    form.isActive = true
+    error.value = null
+  }
+
   return {
     form,
+    isLoading,
+    error,
     getExerciseById,
     onSubmit,
+    resetForm,
   }
 }

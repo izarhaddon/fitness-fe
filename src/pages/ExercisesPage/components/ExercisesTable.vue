@@ -8,7 +8,7 @@ const router = useRouter()
 
 getTable()
 
-function changeRouter(exerciseId: number | undefined) {
+function changeRouter(exerciseId: string | undefined) {
   router.push({
     name: 'Exercise',
     params: {
@@ -23,8 +23,8 @@ function changeRouter(exerciseId: number | undefined) {
     <table>
       <thead>
         <tr>
-          <td>name</td>
-          <td>description</td>
+          <th>name</th>
+          <th>description</th>
         </tr>
       </thead>
       <tbody>

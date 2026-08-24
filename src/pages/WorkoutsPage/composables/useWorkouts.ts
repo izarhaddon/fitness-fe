@@ -1,28 +1,41 @@
+// src/pages/WorkoutsPage/composables/useWorkouts.ts
+
 import {
   reactive,
   ref,
 } from 'vue'
-import { api } from '@/utils/api.ts'
+import { api } from '@/utils/api'
 import type {
   GetWorkoutsResponse,
-  Pagination,
   Workout,
+  Pagination,
 } from '@/types'
 
 const useWorkouts = () => {
   const table = ref<Workout[]>([])
   const pagination = reactive<Pagination>({
-    page: 0,
-    totalPages: 0,
+    page: 1,
+    limit: 20,
     total: 0,
-    limit: 0,
+    totalPages: 0,
   })
   const isLoading = ref<boolean>(false)
 
   async function getWorkouts() {
     isLoading.value = true
     try {
-      const response = await api.get<GetWorkoutsResponse>('/api/workouts')
+      // Передаем params, чтобы запрос реально учитывал пагинацию
+      // Тип params тоже автоматически проверяется благодаря openapi-typescript!
+      const response = await api.get<GetWorkoutsResponse>(
+        '/api/workouts',
+        {
+          params: {
+            page: pagination.page,
+            limit: pagination.limit,
+          },
+        },
+      )
+
       table.value = response.data.data
       Object.assign(
         pagination,
@@ -30,7 +43,10 @@ const useWorkouts = () => {
       )
     }
     catch (error) {
-      console.error(error)
+      console.error(
+        'Ошибка при загрузке тренировок:',
+        error,
+      )
     }
     finally {
       isLoading.value = false

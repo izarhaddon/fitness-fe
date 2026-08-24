@@ -1,85 +1,148 @@
+// src/components/forms/WorkoutForm/composables/useWorkoutForm.ts
+
 import {
   reactive,
   ref,
 } from 'vue'
-import { api } from '@/utils/api.ts'
+import { AxiosError } from 'axios'
+import { api } from '@/utils/api'
 import type { Workout } from '@/types'
 
-type WorkoutForm = Workout
+// Тип специально для состояния формы (UI)
+export type WorkoutExerciseForm = {
+  exerciseId: string
+  name?: string // Только для отображения в интерфейсе, на бэкенд не уйдет
+  order: number
+  sets: number
+  repetitions: number
+  weight: number
+}
+
+// Тип всей формы
+export type WorkoutForm = {
+  id?: string
+  name: string
+  description: string | null
+  isActive: boolean
+  exercises: WorkoutExerciseForm[]
+}
 
 export const useWorkoutForm = () => {
+  // Явная типизация reactive
   const form = reactive<WorkoutForm>({
     id: undefined,
     name: '',
-    description: '',
+    description: null,
     isActive: true,
-    exercises: [
-      {
-        id: 3,
-        name: 'Упражнение 1',
-        description: 'Описание упражнения 1',
-        isActive: true,
-        repetitions: 0,
-        sets: 0,
-        weight: 0,
-        muscleGroupId: null,
-        createdAt: '2026-08-18T13:44:21.561Z',
-        updatedAt: '2026-08-18T13:44:21.561Z',
-        muscleGroup: null,
-      },
-    ],
-    createdAt: undefined,
-    updatedAt: undefined,
+    exercises: [],
   })
 
-  const isLoading = ref(false)
+  const isLoading = ref<boolean>(false)
+  const error = ref<string | null>(null)
 
-  async function onSubmit() {
+  async function getWorkoutById(workoutId: string) {
     isLoading.value = true
-    let response
+    error.value = null
+
     try {
-      response = form.id
-        ? await api.put(
-            `/api/workouts/${form.id}`,
-            form,
-          )
-        : await api.post(
-            '/api/workouts',
-            form,
-          )
-      Object.assign(
-        form,
-        response.data,
-      )
+      // Убран лишний /api, если baseURL уже содержит его
+      const response = await api.get<Workout>(`/api/workouts/${workoutId}`)
+      const data = response.data
+
+      form.id = data.id
+      form.name = data.name
+      form.description = data.description
+      form.isActive = data.isActive
+      form.exercises = data.exercises.map(we => ({
+        exerciseId: we.exerciseId,
+        name: we.exercise.name, // Берем имя из вложенного объекта для UI
+        order: we.order,
+        sets: we.sets,
+        repetitions: we.repetitions,
+        weight: we.weight,
+      }))
     }
-    catch (error) {
-      console.error(error)
+    catch (err: unknown) {
+      error.value = err instanceof AxiosError ? err.response?.data?.error : 'Ошибка загрузки'
+      console.error(
+        'Ошибка при загрузке тренировки:',
+        err,
+      )
     }
     finally {
       isLoading.value = false
     }
   }
 
-  async function getWorkoutById(workoutId: number) {
+  async function onSubmit() {
     isLoading.value = true
+    error.value = null
+
     try {
-      const response = await api.get(`/api/workouts/${workoutId}`)
+      // Очищаем payload от UI-полей (name) перед отправкой на бэкенд
+      const payload = {
+        name: form.name,
+        description: form.description,
+        isActive: form.isActive,
+        exercises: form.exercises.map(({
+          exerciseId, order, sets, repetitions, weight,
+        }) => ({
+          exerciseId,
+          order,
+          sets,
+          repetitions,
+          weight,
+        })),
+      }
+
+      let response
+      if (form.id) {
+        response = await api.put<Workout>(
+          `/api/workouts/${form.id}`,
+          payload,
+        )
+      }
+      else {
+        response = await api.post<Workout>(
+          '/api/workouts',
+          payload,
+        )
+      }
+
       Object.assign(
         form,
         response.data,
       )
+      return response.data
     }
-    catch (error) {
-      console.error(error)
+    catch (err: unknown) {
+      error.value = err instanceof AxiosError ? err.response?.data?.error : 'Ошибка сохранения'
+      console.error(
+        'Ошибка при сохранении тренировки:',
+        err,
+      )
+      throw err
     }
     finally {
       isLoading.value = false
     }
+  }
+
+  function resetForm() {
+    form.id = undefined
+    form.name = ''
+    form.description = null
+    form.isActive = true
+    form.exercises = []
+    error.value = null
   }
 
   return {
     form,
-    onSubmit,
+    isLoading,
+    error,
     getWorkoutById,
+    onSubmit,
+    resetForm,
   }
 }

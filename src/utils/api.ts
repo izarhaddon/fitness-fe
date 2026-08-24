@@ -1,5 +1,3 @@
-import { useRouter } from 'vue-router'
-
 import axios, {
   type AxiosInstance,
   type AxiosRequestConfig,
@@ -12,12 +10,12 @@ const config: AxiosRequestConfig = {
 
 export const api: AxiosInstance = axios.create(config)
 
-function unauthorized() {
-  localStorage.removeItem('token')
-  localStorage.removeItem('user')
-
-  window.location.assign('/login')
-}
+// function unauthorized() {
+//   localStorage.removeItem('token')
+//   localStorage.removeItem('user')
+//
+//   window.location.assign('/login')
+// }
 
 api.interceptors.request.use(
   (request: InternalAxiosRequestConfig) => {
