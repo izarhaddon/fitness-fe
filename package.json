@@ -17,10 +17,14 @@
     "generate:types": "npx openapi-typescript ../fitness-be/openapi.json -o src/types/api.ts"
   },
   "dependencies": {
+    "@vicons/ionicons5": "^0.13.0",
+    "@vueuse/core": "^14.4.0",
     "axios": "^1.19.0",
-    "pinia": "^4.0.2",
+    "naive-ui": "^2.45.2",
+    "pinia": "^4.0.3",
     "vue": "rc",
-    "vue-router": "^5.2.0"
+    "vue-router": "^5.2.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@stylistic/eslint-plugin": "^5.10.0",
