@@ -6,26 +6,9 @@ import LoginForm from '@/components/forms/LoginForm/LoginForm.vue'
 
 <template>
   <div class="login-page">
-    <div class="login-page__form-holder">
-      <LoginForm />
-    </div>
+    <h1 class="login-page__title">login-page</h1>
+    <LoginForm />
   </div>
 </template>
 
-<style scoped>
-.login-page {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--n-color);
-}
-
-.login-page__form-holder {
-  width: 100%;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-}
-</style>
+<style scoped></style>

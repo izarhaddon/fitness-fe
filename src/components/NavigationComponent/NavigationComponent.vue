@@ -5,6 +5,7 @@
   <RouterLink :to="{ name: 'RegistrationPage' }">Registration</RouterLink>
   <RouterLink :to="{ name: 'ExercisesPage' }">Exercises</RouterLink>
   <RouterLink :to="{ name: 'WorkoutsPage' }">Workouts</RouterLink>
+  <RouterLink :to="{ name: 'WorkoutSessionCreatePage' }">Calender</RouterLink>
 </template>
 
 <style scoped></style>

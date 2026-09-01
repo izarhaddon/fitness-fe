@@ -1,120 +1,95 @@
-<script setup lang="ts">
-import {
-  NForm,
-  NFormItem,
-  NInput,
-  NButton,
-  NAlert,
-} from 'naive-ui'
-import { useLoginForm } from '@/components/forms/LoginForm/useLoginForm'
+// src/components/forms/LoginForm/LoginForm.vue
 
-const {
-  form, formErrors, isLoading, globalError, onSubmit,
-} = useLoginForm()
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+import { useAuthStore } from '@/stores/auth'
+import { loginSchema } from '@/components/forms/LoginForm/schemas'
+import UIButton from '@/components/UIButton.vue'
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+const email = ref<string>('')
+const password = ref<string>('')
+const formError = ref<string | null>(null)
+
+const onSubmit = async () => {
+  formError.value = null
+
+  const result = loginSchema.safeParse({
+    email: email.value,
+    password: password.value,
+  })
+
+  if (!result.success) {
+    const firstIssue = result.error.issues[0]
+    formError.value = firstIssue?.message || 'Ошибка валидации данных'
+    return
+  }
+
+  try {
+    await authStore.login(
+      email.value,
+      password.value,
+    )
+    await router.push('/')
+  }
+  catch {
+    formError.value = authStore.error || 'Неверный email или пароль'
+  }
+}
 </script>
 
 <template>
-  <div class="login-block">
-    <h1 class="login-block__title">Вход в систему</h1>
-
-    <NAlert
-      v-if="globalError"
-      type="error"
-      closable
-      @close="globalError = null"
+  <form
+    @submit.prevent="onSubmit"
+    class="login-form"
+  >
+    <div
+      v-if="formError"
+      class="error-message"
     >
-      {{ globalError }}
-    </NAlert>
-
-    <NForm
-      :model="form"
-      @submit.prevent="onSubmit"
-      class="login-block__form"
-    >
-      <NFormItem
-        label="Email"
-        path="email"
-        :show-feedback="!!formErrors.email"
-      >
-        <NInput
-          v-model:value="form.email"
-          size="large"
-          type="text"
-          placeholder="example@mail.com"
-          :status="formErrors.email ? 'error' : undefined"
-          autocomplete="email"
-        />
-        <template #feedback>
-          {{ formErrors.email }}
-        </template>
-      </NFormItem>
-
-      <NFormItem
-        label="Пароль"
-        path="password"
-        :show-feedback="!!formErrors.password"
-      >
-        <NInput
-          v-model:value="form.password"
-          type="password"
-          size="large"
-          placeholder="Введите ваш пароль"
-          show-password-on="click"
-          :status="formErrors.password ? 'error' : undefined"
-          autocomplete="current-password"
-          @keydown.enter="onSubmit"
-        />
-        <template #feedback>
-          {{ formErrors.password }}
-        </template>
-      </NFormItem>
-
-      <div class="login-block__button-holder">
-        <NButton
-          type="primary"
-          block
-          size="large"
-          native-type="submit"
-          :loading="isLoading"
-          :disabled="isLoading"
-          class="login-block__button"
-        >
-          Войти
-        </NButton>
-      </div>
-    </NForm>
-
-    <div class="login-block__footer">
-      <span>Нет аккаунта? </span>
-      <RouterLink
-        :to="{ name: 'RegistrationPage' }"
-        class="login-block__registration-link"
-      >
-        Зарегистрироваться
-      </RouterLink>
+      {{ formError }}
     </div>
-  </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        v-model="email"
+        type="email"
+        name="email"
+        placeholder="test@test.test"
+        :disabled="authStore.isLoading"
+        autocomplete="email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Пароль</label>
+      <input
+        id="password"
+        v-model="password"
+        type="password"
+        name="password"
+        placeholder="Введите пароль"
+        :disabled="authStore.isLoading"
+        autocomplete="current-password"
+        required
+        @keyup.enter="onSubmit"
+      />
+    </div>
+
+    <UIButton
+      type="submit"
+      :disabled="authStore.isLoading"
+    >
+      {{
+        authStore.isLoading ? 'Вход...' : 'Войти'
+      }}
+    </UIButton>
+  </form>
 </template>
-
-<style scoped>
-.login-block__form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.login-block__button-holder {
-  padding-top: 1rem;
-}
-
-.login-block__footer {
-  padding-top: 1rem;
-}
-
-.login-block__registration-link {
-  color: var(--n-primary-color);
-  text-decoration: none;
-  font-weight: 500;
-  transition: opacity 0.2s;
-}
-</style>

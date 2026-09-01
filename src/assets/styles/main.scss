@@ -1,0 +1,34 @@
+@use 'reset';
+
+html, body, #app {}
+
+#app {
+  width: 100dvw;
+  height: 100dvh;
+}
+
+
+table {
+  thead {
+    tr {
+      th {
+        text-align: left;
+        background: darkgray;
+      }
+    }
+  }
+  tbody {
+    tr {
+      td {
+
+      }
+    }
+  }
+}
+
+tr {
+  th, td {
+    padding: 4px;
+    border: 1px solid darkgray;
+  }
+}

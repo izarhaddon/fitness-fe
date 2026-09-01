@@ -6,26 +6,11 @@ import RegistrationForm from '@/components/forms/RegistrationForm/RegistrationFo
 
 <template>
   <div class="registration-page">
-    <div class="registration-page__form-holder">
-      <RegistrationForm />
-    </div>
+    <h1 class="registration-page__title">registration-page</h1>
+    <RegistrationForm />
   </div>
 </template>
 
 <style scoped>
-.registration-page {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--n-color);
-}
 
-.registration-page__form-holder {
-  width: 100%;
-  max-width: 420px;
-  display: flex;
-  flex-direction: column;
-}
 </style>
