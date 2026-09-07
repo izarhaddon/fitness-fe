@@ -122,11 +122,58 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['MeResponse']
+            'application/json': components['schemas']['User']
           }
         }
         /** @description Неавторизован */
         401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/roles': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          page?: number
+          limit?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Список ролей с пагинацией */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['RoleListResponse']
+          }
+        }
+        /** @description Ошибка валидации параметров */
+        400: {
           headers: {
             [name: string]: unknown
           }
@@ -170,11 +217,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message?: string
-              data: components['schemas']['ExerciseResponse'][]
-              pagination: components['schemas']['PaginationResponse']
-            }
+            'application/json': components['schemas']['ExerciseListResponse']
           }
         }
       }
@@ -199,10 +242,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: components['schemas']['ExerciseResponse']
-            }
+            'application/json': components['schemas']['ExerciseResponse']
           }
         }
         /** @description Ошибка валидации */
@@ -246,10 +286,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: components['schemas']['ExerciseResponse']
-            }
+            'application/json': components['schemas']['ExerciseResponse']
           }
         }
         /** @description Упражнение не найдено */
@@ -284,10 +321,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: components['schemas']['ExerciseResponse']
-            }
+            'application/json': components['schemas']['ExerciseResponse']
           }
         }
         /** @description Упражнение не найдено */
@@ -319,9 +353,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-            }
+            'application/json': components['schemas']['SuccessMessage']
           }
         }
         /** @description Упражнение не найдено */
@@ -365,11 +397,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message?: string
-              data: components['schemas']['WorkoutResponse'][]
-              pagination: components['schemas']['PaginationResponse']
-            }
+            'application/json': components['schemas']['WorkoutListResponse']
           }
         }
         /** @description Неавторизован */
@@ -403,10 +431,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: components['schemas']['WorkoutResponse']
-            }
+            'application/json': components['schemas']['WorkoutResponse']
           }
         }
         /** @description Ошибка валидации данных */
@@ -468,10 +493,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: components['schemas']['WorkoutResponse']
-            }
+            'application/json': components['schemas']['WorkoutResponse']
           }
         }
         /** @description Тренировка не найдена */
@@ -506,10 +528,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: components['schemas']['WorkoutResponse']
-            }
+            'application/json': components['schemas']['WorkoutResponse']
           }
         }
         /** @description Ошибка валидации данных */
@@ -568,9 +587,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-            }
+            'application/json': components['schemas']['SuccessMessage']
           }
         }
         /** @description Неавторизован */
@@ -628,10 +645,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: components['schemas']['WorkoutResponse']
-            }
+            'application/json': components['schemas']['WorkoutResponse']
           }
         }
         /** @description Ошибка валидации данных */
@@ -706,9 +720,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-            }
+            'application/json': components['schemas']['SuccessMessage']
           }
         }
         /** @description Неавторизован */
@@ -755,10 +767,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: components['schemas']['WorkoutResponse']
-            }
+            'application/json': components['schemas']['WorkoutResponse']
           }
         }
         /** @description Ошибка валидации данных */
@@ -820,7 +829,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['AssignResponse']
+            'application/json': components['schemas']['WorkoutAssignment']
           }
         }
         /** @description Уже назначена или пользователь не спортсмен */
@@ -849,7 +858,10 @@ export interface paths {
     }
     get: {
       parameters: {
-        query?: never
+        query?: {
+          page?: number
+          limit?: number
+        }
         header?: never
         path?: never
         cookie?: never
@@ -862,7 +874,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['MyAssignmentsResponse']
+            'application/json': components['schemas']['AssignmentListResponse']
           }
         }
       }
@@ -884,7 +896,10 @@ export interface paths {
     }
     get: {
       parameters: {
-        query?: never
+        query?: {
+          page?: number
+          limit?: number
+        }
         header?: never
         path: {
           userId: string
@@ -899,7 +914,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['UserAssignmentsResponse']
+            'application/json': components['schemas']['AssignmentListResponse']
           }
         }
         /** @description Пользователь не найден */
@@ -948,7 +963,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': components['schemas']['RemoveAssignmentResponse']
+            'application/json': components['schemas']['SuccessMessage']
           }
         }
         /** @description Назначение не найдено */
@@ -985,20 +1000,7 @@ export interface paths {
       }
       requestBody?: {
         content: {
-          'application/json': {
-            /** Format: uuid */
-            workoutId: string
-            /** Format: uuid */
-            userId: string
-            /** Format: date-time */
-            scheduledAt: string
-            /**
-                         * @default PLANNED
-                         * @enum {string}
-                         */
-            status?: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
-            notes?: string
-          }
+          'application/json': components['schemas']['CreateSessionRequest']
         }
       }
       responses: {
@@ -1008,52 +1010,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: {
-                /** Format: uuid */
-                id: string
-                /** Format: uuid */
-                userId: string
-                /** Format: uuid */
-                workoutId: string
-                /** Format: date-time */
-                scheduledAt: string
-                /** @enum {string} */
-                status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
-                /** Format: date-time */
-                completedAt: string | null
-                notes: string | null
-                workout: {
-                  /** Format: uuid */
-                  id: string
-                  name: string
-                }
-                exercises: {
-                  /** Format: uuid */
-                  id: string
-                  /** Format: uuid */
-                  sessionId: string
-                  /** Format: uuid */
-                  exerciseId: string
-                  order: number
-                  notes: string | null
-                  exercise: {
-                    /** Format: uuid */
-                    id: string
-                    name: string
-                  }
-                  sets: {
-                    /** Format: uuid */
-                    id: string
-                    order: number
-                    weight: number
-                    repetitions: number
-                    isCompleted: boolean
-                  }[]
-                }[]
-              }
-            }
+            'application/json': components['schemas']['WorkoutSessionHistoryItem']
           }
         }
         /** @description Ошибка валидации данных */
@@ -1105,6 +1062,8 @@ export interface paths {
           startDate: string
           endDate: string
           status?: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
+          page?: number
+          limit?: number
         }
         header?: never
         path?: never
@@ -1118,52 +1077,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: {
-                /** Format: uuid */
-                id: string
-                /** Format: uuid */
-                userId: string
-                /** Format: uuid */
-                workoutId: string
-                /** Format: date-time */
-                scheduledAt: string
-                /** @enum {string} */
-                status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
-                /** Format: date-time */
-                completedAt: string | null
-                notes: string | null
-                workout: {
-                  /** Format: uuid */
-                  id: string
-                  name: string
-                }
-                exercises: {
-                  /** Format: uuid */
-                  id: string
-                  /** Format: uuid */
-                  sessionId: string
-                  /** Format: uuid */
-                  exerciseId: string
-                  order: number
-                  notes: string | null
-                  exercise: {
-                    /** Format: uuid */
-                    id: string
-                    name: string
-                  }
-                  sets: {
-                    /** Format: uuid */
-                    id: string
-                    order: number
-                    weight: number
-                    repetitions: number
-                    isCompleted: boolean
-                  }[]
-                }[]
-              }[]
-            }
+            'application/json': components['schemas']['WorkoutSessionHistoryResponse']
           }
         }
         /** @description Ошибка валидации параметров */
@@ -1177,6 +1091,61 @@ export interface paths {
         }
         /** @description Неавторизован */
         401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workout-sessions/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Сессия тренировки успешно получена */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutSessionHistoryItem']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Сессия тренировки не найдена */
+        404: {
           headers: {
             [name: string]: unknown
           }
@@ -1216,13 +1185,7 @@ export interface paths {
       }
       requestBody?: {
         content: {
-          'application/json': {
-            /** Format: uuid */
-            sessionId: string
-            /** @enum {string} */
-            status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
-            notes?: string
-          }
+          'application/json': components['schemas']['UpdateSessionStatusRequest']
         }
       }
       responses: {
@@ -1232,52 +1195,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: {
-                /** Format: uuid */
-                id: string
-                /** Format: uuid */
-                userId: string
-                /** Format: uuid */
-                workoutId: string
-                /** Format: date-time */
-                scheduledAt: string
-                /** @enum {string} */
-                status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
-                /** Format: date-time */
-                completedAt: string | null
-                notes: string | null
-                workout: {
-                  /** Format: uuid */
-                  id: string
-                  name: string
-                }
-                exercises: {
-                  /** Format: uuid */
-                  id: string
-                  /** Format: uuid */
-                  sessionId: string
-                  /** Format: uuid */
-                  exerciseId: string
-                  order: number
-                  notes: string | null
-                  exercise: {
-                    /** Format: uuid */
-                    id: string
-                    name: string
-                  }
-                  sets: {
-                    /** Format: uuid */
-                    id: string
-                    order: number
-                    weight: number
-                    repetitions: number
-                    isCompleted: boolean
-                  }[]
-                }[]
-              }
-            }
+            'application/json': components['schemas']['WorkoutSessionHistoryItem']
           }
         }
         /** @description Ошибка валидации данных */
@@ -1320,15 +1238,7 @@ export interface paths {
       }
       requestBody?: {
         content: {
-          'application/json': {
-            /** Format: uuid */
-            sessionExerciseId: string
-            order: number
-            weight: number
-            repetitions: number
-            /** @default false */
-            isCompleted?: boolean
-          }
+          'application/json': components['schemas']['AddSessionSetRequest']
         }
       }
       responses: {
@@ -1338,17 +1248,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: {
-                /** Format: uuid */
-                id: string
-                order: number
-                weight: number
-                repetitions: number
-                isCompleted: boolean
-              }
-            }
+            'application/json': components['schemas']['SessionSetResponse']
           }
         }
         /** @description Ошибка валидации данных */
@@ -1380,10 +1280,7 @@ export interface paths {
       }
       requestBody?: {
         content: {
-          'application/json': {
-            /** Format: uuid */
-            setId: string
-          }
+          'application/json': components['schemas']['DeleteSessionSetRequest']
         }
       }
       responses: {
@@ -1393,9 +1290,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-            }
+            'application/json': components['schemas']['SuccessMessage']
           }
         }
         /** @description Нельзя удалить последний подход или ошибка валидации */
@@ -1438,13 +1333,7 @@ export interface paths {
       }
       requestBody?: {
         content: {
-          'application/json': {
-            /** Format: uuid */
-            setId: string
-            weight: number
-            repetitions: number
-            isCompleted: boolean
-          }
+          'application/json': components['schemas']['UpdateSessionSetRequest']
         }
       }
       responses: {
@@ -1454,17 +1343,7 @@ export interface paths {
             [name: string]: unknown
           }
           content: {
-            'application/json': {
-              message: string
-              data: {
-                /** Format: uuid */
-                id: string
-                order: number
-                weight: number
-                repetitions: number
-                isCompleted: boolean
-              }
-            }
+            'application/json': components['schemas']['SessionSetResponse']
           }
         }
         /** @description Ошибка валидации данных */
@@ -1515,14 +1394,7 @@ export interface components {
         id: string
         name: string
       }
-      sets: {
-        /** Format: uuid */
-        id: string
-        order: number
-        weight: number
-        repetitions: number
-        isCompleted: boolean
-      }[]
+      sets: components['schemas']['SessionSetResponse'][]
     }
     WorkoutSessionHistoryItem: {
       /** Format: uuid */
@@ -1543,75 +1415,17 @@ export interface components {
         id: string
         name: string
       }
-      exercises: {
-        /** Format: uuid */
-        id: string
-        /** Format: uuid */
-        sessionId: string
-        /** Format: uuid */
-        exerciseId: string
-        order: number
-        notes: string | null
-        exercise: {
-          /** Format: uuid */
-          id: string
-          name: string
-        }
-        sets: {
-          /** Format: uuid */
-          id: string
-          order: number
-          weight: number
-          repetitions: number
-          isCompleted: boolean
-        }[]
-      }[]
+      exercises: components['schemas']['SessionExerciseResponse'][]
     }
     WorkoutSessionHistoryResponse: {
-      message: string
-      data: {
-        /** Format: uuid */
-        id: string
-        /** Format: uuid */
-        userId: string
-        /** Format: uuid */
-        workoutId: string
-        /** Format: date-time */
-        scheduledAt: string
-        /** @enum {string} */
-        status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
-        /** Format: date-time */
-        completedAt: string | null
-        notes: string | null
-        workout: {
-          /** Format: uuid */
-          id: string
-          name: string
-        }
-        exercises: {
-          /** Format: uuid */
-          id: string
-          /** Format: uuid */
-          sessionId: string
-          /** Format: uuid */
-          exerciseId: string
-          order: number
-          notes: string | null
-          exercise: {
-            /** Format: uuid */
-            id: string
-            name: string
-          }
-          sets: {
-            /** Format: uuid */
-            id: string
-            order: number
-            weight: number
-            repetitions: number
-            isCompleted: boolean
-          }[]
-        }[]
-      }[]
+      data: components['schemas']['WorkoutSessionHistoryItem'][]
+      pagination: components['schemas']['PaginationResponse']
+    }
+    PaginationResponse: {
+      page: number
+      limit: number
+      total: number
+      totalPages: number
     }
     AuthResponse: {
       user: components['schemas']['User']
@@ -1632,6 +1446,7 @@ export interface components {
     }
     Error: {
       error: string
+      details?: unknown[]
     }
     LoginInput: {
       /**
@@ -1664,8 +1479,19 @@ export interface components {
              */
       roleSlug: 'trainer' | 'athlete'
     }
-    MeResponse: {
-      user: components['schemas']['User']
+    RoleListResponse: {
+      data: components['schemas']['Role'][]
+      pagination: components['schemas']['PaginationResponse']
+    }
+    Role: {
+      /** Format: uuid */
+      id: string
+      name: string
+      slug: string
+    }
+    ExerciseListResponse: {
+      data: components['schemas']['ExerciseResponse'][]
+      pagination: components['schemas']['PaginationResponse']
     }
     ExerciseResponse: {
       /** Format: uuid */
@@ -1677,12 +1503,6 @@ export interface components {
       createdAt: string
       /** Format: date-time */
       updatedAt: string
-    }
-    PaginationResponse: {
-      page: number
-      limit: number
-      total: number
-      totalPages: number
     }
     CreateExerciseRequest: {
       /**
@@ -1720,6 +1540,13 @@ export interface components {
              */
       isActive: boolean
     }
+    SuccessMessage: {
+      message: string
+    }
+    WorkoutListResponse: {
+      data: components['schemas']['WorkoutResponse'][]
+      pagination: components['schemas']['PaginationResponse']
+    }
     WorkoutResponse: {
       /** Format: uuid */
       id: string
@@ -1747,6 +1574,7 @@ export interface components {
     }
     UnprocessableEntity: {
       error: string
+      details?: unknown[]
     }
     CreateWorkoutRequest: {
       /** @example День ног */
@@ -1834,7 +1662,7 @@ export interface components {
       /** @default 0 */
       weight: number
     }
-    AssignResponse: {
+    WorkoutAssignment: {
       /** Format: uuid */
       id: string
       /** Format: uuid */
@@ -1859,34 +1687,50 @@ export interface components {
              */
       userId: string
     }
-    MyAssignmentsResponse: {
+    AssignmentListResponse: {
       data: components['schemas']['WorkoutAssignment'][]
+      pagination: components['schemas']['PaginationResponse']
     }
-    WorkoutAssignment: {
-      /** Format: uuid */
-      id: string
+    CreateSessionRequest: {
       /** Format: uuid */
       workoutId: string
       /** Format: uuid */
       userId: string
       /** Format: date-time */
-      assignedAt: string
-      workout: components['schemas']['WorkoutResponse']
+      scheduledAt: string
+      /**
+             * @default PLANNED
+             * @enum {string}
+             */
+      status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
+      notes?: string
     }
-    UserAssignmentsResponse: {
-      data: components['schemas']['WorkoutAssignment'][]
-      user: {
-        /** Format: uuid */
-        id: string
-        name: string
-        /** Format: email */
-        email: string
-      }
-    }
-    RemoveAssignmentResponse: {
-      message: string
+    UpdateSessionStatusRequest: {
       /** Format: uuid */
-      id: string
+      sessionId: string
+      /** @enum {string} */
+      status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
+      notes?: string
+    }
+    UpdateSessionSetRequest: {
+      /** Format: uuid */
+      setId: string
+      weight: number
+      repetitions: number
+      isCompleted: boolean
+    }
+    AddSessionSetRequest: {
+      /** Format: uuid */
+      sessionExerciseId: string
+      order: number
+      weight: number
+      repetitions: number
+      /** @default false */
+      isCompleted: boolean
+    }
+    DeleteSessionSetRequest: {
+      /** Format: uuid */
+      setId: string
     }
   }
   responses: never

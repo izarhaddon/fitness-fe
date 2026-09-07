@@ -12,7 +12,7 @@ export const registerSchema = z.object({
       error: 'Пароль должен содержать минимум 4 символа',
     },
   ),
-  // Преобразуем пустую строку в undefined, чтобы удовлетворить optional() и min(2)
+
   name: z.preprocess(
     val => (typeof val === 'string' && val.trim() === '' ? undefined : val),
     z
@@ -25,7 +25,7 @@ export const registerSchema = z.object({
       )
       .optional(),
   ),
-  // Zod v4 синтаксис: z.enum принимает объект, ошибка через { error: '...' }
+
   roleSlug: z.enum(
     {
       trainer: 'trainer',

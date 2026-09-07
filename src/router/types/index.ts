@@ -1,0 +1,16 @@
+export enum RouterNames {
+  HomePage = 'HomePage',
+  LoginPage = 'LoginPage',
+  RegistrationPage = 'RegistrationPage',
+  WorkoutsPage = 'WorkoutsPage',
+  WorkoutCreatePage = 'WorkoutCreatePage',
+  WorkoutPage = 'WorkoutPage',
+  WorkoutEditPage = 'WorkoutEditPage',
+  ExercisesPage = 'ExercisesPage',
+  ExerciseCreatePage = 'ExerciseCreatePage',
+  ExercisePage = 'ExercisePage',
+  ExerciseEditPage = 'ExerciseEditPage',
+  WorkoutSessionCreatePage = 'WorkoutSessionCreatePage',
+  WorkoutSessionsPage = 'WorkoutSessionsPage',
+  WorkoutSessionPage = 'WorkoutSessionPage',
+}

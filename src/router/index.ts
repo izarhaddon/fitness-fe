@@ -1,4 +1,4 @@
-// src/router/index.ts.ts.ts.ts
+// src/router/index.ts
 
 import {
   createRouter,
@@ -18,28 +18,31 @@ import WorkoutCreatePage from '@/pages/WorkoutCreatePage/WorkoutCreatePage.vue'
 import ExercisesPage from '@/pages/ExercisesPage/ExercisesPage.vue'
 import WorkoutSessionCreatePage from '@/pages/WorkoutSessionCreatePage/WorkoutSessionCreatePage.vue'
 import WorkoutSessionsPage from '@/pages/WorkoutSessionsPage/WorkoutSessionsPage.vue'
+import WorkoutSessionPage from '@/pages/WorkoutSessionPage/WorkoutSessionPage.vue'
+
+import { RouterNames } from '@/router/types'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'HomePage',
+      name: RouterNames.HomePage,
       component: HomePage,
     },
     {
       path: '/login',
-      name: 'LoginPage',
+      name: RouterNames.LoginPage,
       component: LoginPage,
     },
     {
       path: '/registration',
-      name: 'RegistrationPage',
+      name: RouterNames.RegistrationPage,
       component: RegistrationPage,
     },
     {
       path: '/workouts',
-      name: 'WorkoutsPage',
+      name: RouterNames.WorkoutsPage,
       component: WorkoutsPage,
       meta: {
         requiresAuth: true,
@@ -47,7 +50,7 @@ const router = createRouter({
     },
     {
       path: '/workouts/create',
-      name: 'WorkoutCreatePage',
+      name: RouterNames.WorkoutCreatePage,
       component: WorkoutCreatePage,
       meta: {
         requiresAuth: true,
@@ -55,7 +58,7 @@ const router = createRouter({
     },
     {
       path: '/workouts/:workoutId',
-      name: 'WorkoutPage',
+      name: RouterNames.WorkoutPage,
       component: WorkoutPage,
       meta: {
         requiresAuth: true,
@@ -63,7 +66,7 @@ const router = createRouter({
     },
     {
       path: '/workouts/:workoutId/edit',
-      name: 'WorkoutEditPage',
+      name: RouterNames.WorkoutEditPage,
       component: WorkoutEditPage,
       meta: {
         requiresAuth: true,
@@ -71,7 +74,7 @@ const router = createRouter({
     },
     {
       path: '/exercises',
-      name: 'ExercisesPage',
+      name: RouterNames.ExercisesPage,
       component: ExercisesPage,
       meta: {
         requiresAuth: true,
@@ -79,7 +82,7 @@ const router = createRouter({
     },
     {
       path: '/exercises/create',
-      name: 'ExerciseCreatePage',
+      name: RouterNames.ExerciseCreatePage,
       component: ExerciseCreatePage,
       meta: {
         requiresAuth: true,
@@ -87,7 +90,7 @@ const router = createRouter({
     },
     {
       path: '/exercises/:exerciseId',
-      name: 'ExercisePage',
+      name: RouterNames.ExercisePage,
       component: ExercisePage,
       meta: {
         requiresAuth: true,
@@ -95,7 +98,7 @@ const router = createRouter({
     },
     {
       path: '/exercises/:exerciseId/edit',
-      name: 'ExerciseEditPage',
+      name: RouterNames.ExerciseEditPage,
       component: ExerciseEditPage,
       meta: {
         requiresAuth: true,
@@ -103,7 +106,7 @@ const router = createRouter({
     },
     {
       path: '/workout-sessions/create',
-      name: 'WorkoutSessionCreatePage',
+      name: RouterNames.WorkoutSessionCreatePage,
       component: WorkoutSessionCreatePage,
       meta: {
         requiresAuth: true,
@@ -111,8 +114,16 @@ const router = createRouter({
     },
     {
       path: '/workout-sessions',
-      name: 'WorkoutSessionsPage',
+      name: RouterNames.WorkoutSessionsPage,
       component: WorkoutSessionsPage,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/workout-sessions/:workoutSessionId',
+      name: RouterNames.WorkoutSessionPage,
+      component: WorkoutSessionPage,
       meta: {
         requiresAuth: true,
       },
@@ -129,7 +140,7 @@ router.beforeEach(async (to) => {
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     return {
-      name: 'LoginPage',
+      name: RouterNames.LoginPage,
       query: {
         redirect: to.fullPath,
       },
@@ -138,7 +149,7 @@ router.beforeEach(async (to) => {
 
   if (to.meta.requiresRole && authStore.user?.roleSlug !== to.meta.requiresRole) {
     return {
-      name: 'HomePage',
+      name: RouterNames.HomePage,
     }
   }
 })

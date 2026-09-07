@@ -1,11 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterNames } from '@/router/types'
+</script>
 
 <template>
-  <RouterLink :to="{ name: 'LoginPage' }">Login</RouterLink>
-  <RouterLink :to="{ name: 'RegistrationPage' }">Registration</RouterLink>
-  <RouterLink :to="{ name: 'ExercisesPage' }">Exercises</RouterLink>
-  <RouterLink :to="{ name: 'WorkoutsPage' }">Workouts</RouterLink>
-  <RouterLink :to="{ name: 'WorkoutSessionCreatePage' }">Calender</RouterLink>
+  <nav class="navigation-component">
+    <RouterLink :to="{ name: RouterNames.ExercisesPage }">Exercises</RouterLink>
+    <RouterLink :to="{ name: RouterNames.WorkoutsPage }">Workouts</RouterLink>
+    <RouterLink :to="{ name: RouterNames.WorkoutSessionsPage }">Workout Sessions</RouterLink>
+  </nav>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.navigation-component {
+  display: flex;
+  gap: 8px;
+}
+</style>

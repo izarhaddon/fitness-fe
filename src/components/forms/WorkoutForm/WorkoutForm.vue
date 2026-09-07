@@ -11,7 +11,7 @@ import { api } from '@/utils/api'
 import { workoutSchema } from '@/components/forms/WorkoutForm/schemas'
 import type {
   Workout,
-  WorkoutExerciseItemInput, // <-- ИСПРАВЛЕНО: используем Input тип
+  WorkoutExerciseItemInput,
   Exercise,
 } from '@/components/forms/WorkoutForm/types'
 import UIButton from '@/components/UIButton.vue'
@@ -30,7 +30,6 @@ const name = ref<string>(props.initialData?.name ?? '')
 const description = ref<string>(props.initialData?.description ?? '')
 const isActive = ref<boolean>(props.initialData?.isActive ?? true)
 
-// ИСПРАВЛЕНО: возвращаемый тип и тип маппинга
 const initializeExercises = (): WorkoutExerciseItemInput[] => {
   if (props.initialData?.exercises && props.initialData.exercises.length > 0) {
     return props.initialData.exercises.map(ex => ({
@@ -53,12 +52,10 @@ const initializeExercises = (): WorkoutExerciseItemInput[] => {
   ]
 }
 
-// ИСПРАВЛЕНО: типизация ref
 const exercises = ref<WorkoutExerciseItemInput[]>(initializeExercises())
 const formError = ref<string | null>(null)
 const isLoading = ref<boolean>(false)
 
-// Список доступных упражнений для выпадающего списка
 const availableExercises = ref<Exercise[]>([])
 
 onMounted(async () => {
@@ -89,7 +86,6 @@ const addExercise = () => {
   const nextOrder
     = exercises.value.length > 0 ? Math.max(...exercises.value.map(e => e.order)) + 1 : 1
 
-  // Теперь TypeScript знает, что этот объект соответствует WorkoutExerciseItemInput
   exercises.value.push({
     exerciseId: '',
     order: nextOrder,

@@ -1,51 +1,17 @@
 <script setup lang="ts">
-import {
-  onMounted,
-  ref,
-} from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { api } from '@/utils/api.ts'
 import UIButton from '@/components/UIButton.vue'
-import type { WorkoutSessionHistoryItem } from '@/pages/WorkoutSessionsPage/types'
+import WorkoutSessionsPageEmpty from '@/pages/WorkoutSessionsPage/components/WorkoutSessionsPageEmpty.vue'
+import { useWorkoutSessions } from '@/pages/WorkoutSessionsPage/composables/useWorkoutSessions.ts'
+import { onMounted } from 'vue'
+import { RouterNames } from '@/router/types'
+import UIDatePicker from '@/components/UIDatePicker.vue'
+import UISelect from '@/components/UISelect.vue'
+import WorkoutSessionCard from '@/pages/WorkoutSessionsPage/components/WorkoutSessionCard.vue'
 
-const { user } = useAuthStore()
-
-const startDate = ref<Date>(new Date())
-const endDate = ref<Date>(new Date())
-const status = ref<'ALL' | 'PLANNED' | 'COMPLETED' | 'SKIPPED' | undefined>('ALL')
-const sessions = ref<WorkoutSessionHistoryItem[]>([])
-
-async function getSessions() {
-  if (user) {
-    try {
-      const query = {
-        userId: user.id,
-        startDate: new Date(startDate.value).toISOString(),
-        endDate: new Date(endDate.value).toISOString(),
-        status: status.value === 'ALL' ? undefined : status.value,
-      }
-
-      const response = await api.GET(
-        '/workout-sessions/history',
-        {
-          params: {
-            query,
-          },
-        },
-      )
-      if (response.data) {
-        sessions.value = response.data.data
-      }
-    }
-    catch (err) {
-      console.error(err)
-    }
-  }
+const {
+  endDate, startDate, status, sessions, options, onSubmit, getSessions,
 }
-
-function onSubmit() {
-  getSessions()
-}
+  = useWorkoutSessions()
 
 onMounted(() => {
   getSessions()
@@ -55,51 +21,53 @@ onMounted(() => {
 <template>
   <div class="workout-sessions-page">
     <form @submit.prevent="onSubmit">
-      <div>
-        <label for="startDate">startDate</label>
-        <input
-          id="startDate"
-          type="date"
-          name="startDate"
-          v-model="startDate"
-        />
-      </div>
+      <UIDatePicker
+        id="startDate"
+        v-model:date="startDate"
+        name="startDate"
+        label="startDate"
+      />
 
-      <div>
-        <label for="endDate">endDate</label>
-        <input
-          id="endDate"
-          type="date"
-          name="endDate"
-          v-model="endDate"
-        />
-      </div>
+      <UIDatePicker
+        id="endDate"
+        v-model:date="endDate"
+        name="endDate"
+        label="endDate"
+      />
 
-      <div>
-        <select
-          id="status"
-          name="status"
-          v-model="status"
-        >
-          <option value="ALL">ALL</option>
-          <option value="PLANNED">PLANNED</option>
-          <option value="COMPLETED">COMPLETED</option>
-          <option value="SKIPPED">SKIPPED</option>
-        </select>
-      </div>
+      <UISelect
+        id="status"
+        name="status"
+        label="status"
+        v-model:selected="status"
+        :options="options"
+      />
 
       <div>
         <UIButton type="submit">submit</UIButton>
       </div>
     </form>
 
-    <div
-      v-for="session in sessions"
-      :key="session.id"
-    >
-      {{ session }}
+    <div class="workout-sessions-page__cards-wrapper">
+      <WorkoutSessionCard
+        v-for="workoutSession in sessions"
+        :key="workoutSession.id"
+        :workoutSession="workoutSession"
+      />
     </div>
+
+    <WorkoutSessionsPageEmpty v-if="sessions.length === 0" />
+
+    <router-link :to="{ name: RouterNames.WorkoutSessionCreatePage }">Добавить</router-link>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.workout-sessions-page {
+  &__cards-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+</style>

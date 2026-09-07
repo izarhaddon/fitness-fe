@@ -10,6 +10,8 @@ import { api } from '@/utils/api'
 import { exerciseSchema } from '@/components/forms/ExerciseForm/schemas'
 import type { Exercise } from '@/components/forms/ExerciseForm/types'
 import UIButton from '@/components/UIButton.vue'
+import UITextInput from '@/components/UITextInput.vue'
+import UITextArea from '@/components/UITextArea.vue'
 
 const props = defineProps<{
   initialData?: Exercise
@@ -96,30 +98,19 @@ const onSubmit = async () => {
       </p>
     </div>
 
-    <div>
-      <label for="name">Название упражнения</label>
-      <input
-        id="name"
-        v-model="name"
-        type="text"
-        name="name"
-        placeholder="Приседания со штангой"
-        :disabled="isLoading"
-        required
-      />
-    </div>
+    <UITextInput
+      id="name"
+      label="Название упражнения"
+      name="name"
+      v-model:value="name"
+    />
 
-    <div>
-      <label for="description">Описание (необязательно)</label>
-      <textarea
-        id="description"
-        v-model="description"
-        name="description"
-        placeholder="Базовое многосуставное упражнение для развития мышц ног"
-        :disabled="isLoading"
-        rows="4"
-      ></textarea>
-    </div>
+    <UITextArea
+      id="description"
+      label="Описание (необязательно)"
+      name="description"
+      v-model:value="description"
+    />
 
     <div>
       <label>

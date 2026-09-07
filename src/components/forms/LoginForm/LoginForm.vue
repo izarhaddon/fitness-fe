@@ -1,5 +1,4 @@
 // src/components/forms/LoginForm/LoginForm.vue
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -7,6 +6,7 @@ import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { loginSchema } from '@/components/forms/LoginForm/schemas'
 import UIButton from '@/components/UIButton.vue'
+import UITextInput from '@/components/UITextInput.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -54,42 +54,31 @@ const onSubmit = async () => {
       {{ formError }}
     </div>
 
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        id="email"
-        v-model="email"
-        type="email"
-        name="email"
-        placeholder="test@test.test"
-        :disabled="authStore.isLoading"
-        autocomplete="email"
-        required
-      />
-    </div>
+    <UITextInput
+      id="email"
+      label="Email"
+      name="email"
+      type="email"
+      v-model:value="email"
+      :disabled="authStore.isLoading"
+      required
+    />
 
-    <div class="form-group">
-      <label for="password">Пароль</label>
-      <input
-        id="password"
-        v-model="password"
-        type="password"
-        name="password"
-        placeholder="Введите пароль"
-        :disabled="authStore.isLoading"
-        autocomplete="current-password"
-        required
-        @keyup.enter="onSubmit"
-      />
-    </div>
+    <UITextInput
+      id="password"
+      label="Пароль"
+      name="password"
+      type="password"
+      v-model:value="password"
+      :disabled="authStore.isLoading"
+      required
+    />
 
     <UIButton
       type="submit"
       :disabled="authStore.isLoading"
     >
-      {{
-        authStore.isLoading ? 'Вход...' : 'Войти'
-      }}
+      {{ authStore.isLoading ? 'Вход...' : 'Войти' }}
     </UIButton>
   </form>
 </template>

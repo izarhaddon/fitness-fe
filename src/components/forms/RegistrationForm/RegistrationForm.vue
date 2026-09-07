@@ -1,5 +1,4 @@
 // src/components/forms/RegistrationForm/RegistrationForm.vue
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -7,6 +6,8 @@ import { useRouter } from 'vue-router'
 import { api } from '@/utils/api.ts'
 import { registerSchema } from '@/components/forms/RegistrationForm/schemas'
 import UIButton from '@/components/UIButton.vue'
+import UITextInput from '@/components/UITextInput.vue'
+import UISelect from '@/components/UISelect.vue'
 
 const router = useRouter()
 
@@ -16,6 +17,17 @@ const name = ref<string>('')
 const roleSlug = ref<'trainer' | 'athlete'>('athlete')
 const formError = ref<string | null>(null)
 const isLoading = ref<boolean>(false)
+
+const roleOptions = [
+  {
+    value: 'athlete',
+    label: 'Спортсмен',
+  },
+  {
+    value: 'trainer',
+    label: 'Тренер',
+  },
+]
 
 const onSubmit = async () => {
   formError.value = null
@@ -68,65 +80,60 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <div v-if="formError">
-      <p>{{ formError }}</p>
+  <form
+    @submit.prevent="onSubmit"
+    class="registration-form"
+  >
+    <div
+      v-if="formError"
+      class="error-message"
+    >
+      {{ formError }}
     </div>
 
-    <div>
-      <label for="name">Имя (необязательно)</label>
-      <input
-        id="name"
-        v-model="name"
-        type="text"
-        placeholder="Иван Иванов"
-        :disabled="isLoading"
-      />
-    </div>
+    <UITextInput
+      id="name"
+      label="Имя (необязательно)"
+      name="name"
+      type="text"
+      v-model:value="name"
+      :disabled="isLoading"
+    />
 
-    <div>
-      <label for="email">Email</label>
-      <input
-        id="email"
-        v-model="email"
-        type="email"
-        placeholder="new@test.test"
-        :disabled="isLoading"
-        required
-      />
-    </div>
+    <UITextInput
+      id="email"
+      label="Email"
+      name="email"
+      type="email"
+      v-model:value="email"
+      :disabled="isLoading"
+      required
+    />
 
-    <div>
-      <label for="password">Пароль</label>
-      <input
-        id="password"
-        v-model="password"
-        type="password"
-        placeholder="password123"
-        :disabled="isLoading"
-        required
-      />
-    </div>
+    <UITextInput
+      id="password"
+      label="Пароль"
+      name="password"
+      type="password"
+      v-model:value="password"
+      :disabled="isLoading"
+      required
+    />
 
-    <div>
-      <label for="role">Роль</label>
-      <select
-        id="role"
-        v-model="roleSlug"
-        :disabled="isLoading"
-      >
-        <option value="athlete">Спортсмен</option>
-        <option value="trainer">Тренер</option>
-      </select>
-    </div>
+    <UISelect
+      id="role"
+      label="Роль"
+      name="role"
+      :selected="roleSlug"
+      :options="roleOptions"
+      :disabled="isLoading"
+    />
 
-    <div>
-      <UIButton
-        type="submit"
-        :disabled="isLoading"
-      >
-        {{ isLoading ? 'Регистрация...' : 'Зарегистрироваться' }}
-      </UIButton>
-    </div>
+    <UIButton
+      type="submit"
+      :disabled="isLoading"
+    >
+      {{ isLoading ? 'Регистрация...' : 'Зарегистрироваться' }}
+    </UIButton>
   </form>
 </template>

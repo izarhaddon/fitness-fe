@@ -75,7 +75,7 @@ export const useAuthStore = defineStore(
           return
         }
 
-        user.value = data.user
+        user.value = data
       }
       finally {
         isLoading.value = false
