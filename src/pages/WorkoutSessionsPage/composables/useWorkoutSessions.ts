@@ -7,6 +7,10 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import type { WorkoutSessionHistoryItem } from '@/pages/WorkoutSessionsPage/types'
 import { api } from '@/utils/api.ts'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 
 export const useWorkoutSessions = () => {
   const { user } = useAuthStore()
@@ -34,6 +38,7 @@ export const useWorkoutSessions = () => {
   ]
   const status = ref<'ALL' | 'PLANNED' | 'COMPLETED' | 'SKIPPED'>('ALL')
   const sessions = ref<WorkoutSessionHistoryItem[]>([])
+  const error = ref<string | null>(null)
 
   function formatLocalDateTime(dateOrString: Date | string, isEndOfDay = false): string {
     let date = typeof dateOrString === 'string' ? parseISO(dateOrString) : dateOrString
@@ -49,6 +54,8 @@ export const useWorkoutSessions = () => {
   async function getSessions() {
     if (!user) return
 
+    error.value = null
+
     try {
       const query = {
         startDate: formatLocalDateTime(
@@ -62,21 +69,22 @@ export const useWorkoutSessions = () => {
         status: status.value === 'ALL' ? undefined : status.value,
       }
 
-      const response = await api.GET(
+      const data = await unwrap(api.GET(
         '/workout-sessions/history',
         {
           params: {
             query,
           },
         },
-      )
+      ))
 
-      if (response.data) {
-        sessions.value = response.data.data
-      }
+      sessions.value = data.data
     }
     catch (err) {
-      console.error(err)
+      error.value = getErrorMessage(
+        err,
+        'Не удалось загрузить историю тренировок',
+      )
     }
   }
 
@@ -92,5 +100,6 @@ export const useWorkoutSessions = () => {
     options,
     onSubmit,
     getSessions,
+    error,
   }
 }

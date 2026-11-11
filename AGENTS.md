@@ -119,6 +119,29 @@
   ```
 - Типы API не пишем руками — берём из `src/types/api.ts` (генерируется `npm run generate:types` из `../fitness-be/openapi.json`, руками не редактируется).
 
+## Вызовы API и ошибки
+- `openapi-fetch` **не бросает исключение** на 4xx/5xx, а возвращает `{ error }`. Поэтому каждый вызов `api.*` оборачиваем в `unwrap()` из `@/utils/apiError`: он возвращает `data` или бросает `ApiError` с понятным текстом (сообщение с бэкенда или по статусу; сеть недоступна — `status: 0`).
+- Не проверяем `response.data` / `{ error }` вручную и не пишем `console.error` вместо показа ошибки.
+- Текст для пользователя — `getErrorMessage(err, 'fallback')`, показываем через `<UIErrorMessage :message="error" />`.
+  ```typescript
+  // ✅ Правильно:
+  const error = ref<string | null>(null)
+
+  try {
+    const data = await unwrap(api.GET('/exercises', { params: { query: { limit: 100 } } }))
+    exercises.value = data.data
+  }
+  catch (err) {
+    error.value = getErrorMessage(err, 'Не удалось загрузить список упражнений')
+  }
+
+  // ❌ Неправильно (ошибка API теряется молча):
+  const response = await api.GET('/exercises')
+  if (response.data) exercises.value = response.data.data
+  ```
+- Эталоны: `src/pages/ExercisesPage/ExercisesPage.vue` (загрузка), `src/components/forms/ExerciseForm/ExerciseForm.vue` (форма).
+- 401 обрабатывается глобально в `src/utils/api.ts` (сброс токена и переход на логин) — в компонентах его отдельно не обрабатываем.
+
 ## Импорты
 - Группировать импорты: сначала внешние библиотеки, затем внутренние алиасы (@/), затем типы.
 

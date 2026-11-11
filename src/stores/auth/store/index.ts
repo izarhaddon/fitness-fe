@@ -7,6 +7,11 @@ import {
 } from 'vue'
 
 import { api } from '@/utils/api'
+import {
+  ApiError,
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import type { User } from '@/stores/auth/types'
 
 export const useAuthStore = defineStore(
@@ -28,9 +33,7 @@ export const useAuthStore = defineStore(
       error.value = null
 
       try {
-        const {
-          data, error: apiError,
-        } = await api.POST(
+        const data = await unwrap(api.POST(
           '/auth/login',
           {
             body: {
@@ -38,23 +41,23 @@ export const useAuthStore = defineStore(
               password,
             },
           },
+        ))
+
+        token.value = data.token
+        user.value = data.user
+        localStorage.setItem(
+          'token',
+          data.token,
         )
 
-        if (apiError) {
-          error.value = apiError.error || 'Ошибка при входе в систему'
-          throw new Error(error.value)
-        }
-
-        if (data) {
-          token.value = data.token
-          user.value = data.user
-          localStorage.setItem(
-            'token',
-            data.token,
-          )
-
-          return data
-        }
+        return data
+      }
+      catch (err) {
+        error.value = getErrorMessage(
+          err,
+          'Ошибка при входе в систему',
+        )
+        throw err
       }
       finally {
         isLoading.value = false
@@ -66,21 +69,20 @@ export const useAuthStore = defineStore(
 
       isLoading.value = true
       try {
-        const {
-          data, error: apiError,
-        } = await api.GET('/auth/me')
+        user.value = await unwrap(api.GET('/auth/me'))
+      }
+      catch (err) {
+        const isServerUnavailable = err instanceof ApiError && (err.status === 0 || err.status >= 500)
 
-        if (apiError || !data) {
-          logout()
+        if (isServerUnavailable) {
+          // Сеть или сервер недоступны: токен не трогаем (он может быть валидным), пользователь остаётся неавторизованным
+          user.value = null
+          error.value = 'Сервер недоступен, попробуйте позже'
           return
         }
 
-        user.value = data
-      }
-      catch {
-        // Сеть или сервер недоступны: токен не трогаем (он может быть валидным), пользователь остаётся неавторизованным
-        user.value = null
-        error.value = 'Сервер недоступен, попробуйте позже'
+        // Токен отклонён (401) или пользователь не найден — выходим
+        logout()
       }
       finally {
         isLoading.value = false

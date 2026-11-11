@@ -6,6 +6,11 @@ import {
 } from 'vue'
 
 import { api } from '@/utils/api'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 import WorkoutsTable from '@/pages/WorkoutsPage/components/WorkoutsTable/WorkoutsTable.vue'
 
 import type { Workout } from '@/pages/WorkoutsPage/types'
@@ -19,7 +24,7 @@ const fetchWorkouts = async () => {
   error.value = null
 
   try {
-    const response = await api.GET(
+    const data = await unwrap(api.GET(
       '/workouts',
       {
         params: {
@@ -28,17 +33,15 @@ const fetchWorkouts = async () => {
           },
         },
       },
-    )
+    ))
 
-    if (!response.data) {
-      error.value = 'Не удалось загрузить список тренировок'
-      return
-    }
-
-    workouts.value = response.data.data
+    workouts.value = data.data
   }
-  catch {
-    error.value = 'Произошла ошибка сети при загрузке данных'
+  catch (err) {
+    error.value = getErrorMessage(
+      err,
+      'Не удалось загрузить список тренировок',
+    )
   }
   finally {
     isLoading.value = false
@@ -53,6 +56,7 @@ onMounted(() => {
 <template>
   <div class="workouts-page">
     <h1 class="workouts-page__title">Тренировки</h1>
+    <UIErrorMessage :message="error" />
     <div>
       <router-link :to="{ name: 'WorkoutCreatePage' }"> Создать новую тренировку </router-link>
     </div>

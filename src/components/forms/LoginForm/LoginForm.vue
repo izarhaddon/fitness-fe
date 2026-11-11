@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/auth'
 import { loginSchema } from '@/components/forms/LoginForm/schemas'
 import UIButton from '@/components/UIButton.vue'
 import UITextInput from '@/components/UITextInput.vue'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -47,12 +48,7 @@ const onSubmit = async () => {
     @submit.prevent="onSubmit"
     class="login-form"
   >
-    <div
-      v-if="formError"
-      class="error-message"
-    >
-      {{ formError }}
-    </div>
+    <UIErrorMessage :message="formError" />
 
     <UITextInput
       id="email"

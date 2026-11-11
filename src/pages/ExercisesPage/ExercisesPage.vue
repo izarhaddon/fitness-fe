@@ -6,7 +6,12 @@ import {
   ref,
 } from 'vue'
 import { api } from '@/utils/api'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import { useAuthStore } from '@/stores/auth'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 import type { Exercise } from '@/pages/ExercisesPage/types'
 import ExercisesTable from '@/pages/ExercisesPage/components/ExerciseTable/ExercisesTable.vue'
 
@@ -21,7 +26,7 @@ const fetchExercises = async () => {
   error.value = null
 
   try {
-    const response = await api.GET(
+    const data = await unwrap(api.GET(
       '/exercises',
       {
         params: {
@@ -30,17 +35,15 @@ const fetchExercises = async () => {
           },
         },
       },
-    )
+    ))
 
-    if (!response.data) {
-      error.value = 'Не удалось загрузить список упражнений'
-      return
-    }
-
-    exercises.value = response.data.data
+    exercises.value = data.data
   }
-  catch {
-    error.value = 'Произошла ошибка сети при загрузке данных'
+  catch (err) {
+    error.value = getErrorMessage(
+      err,
+      'Не удалось загрузить список упражнений',
+    )
   }
   finally {
     isLoading.value = false
@@ -59,6 +62,8 @@ onMounted(() => {
     <div v-if="authStore.isAdmin">
       <router-link :to="{ name: 'ExerciseCreatePage' }"> Создать новое упражнение </router-link>
     </div>
+
+    <UIErrorMessage :message="error" />
 
     <ExercisesTable
       v-if="!isLoading && !error"

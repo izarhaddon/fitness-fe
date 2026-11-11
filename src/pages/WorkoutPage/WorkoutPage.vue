@@ -8,7 +8,12 @@ import {
 import { useRoute } from 'vue-router'
 
 import { api } from '@/utils/api'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import type { Workout } from '@/pages/WorkoutPage/types'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 import WorkoutExerciseCard from '@/pages/WorkoutPage/components/WorkoutExerciseCard/WorkoutExerciseCard.vue'
 
 const route = useRoute()
@@ -26,7 +31,7 @@ const fetchWorkout = async () => {
   error.value = null
 
   try {
-    const response = await api.GET(
+    const data = await unwrap(api.GET(
       '/workouts/{id}',
       {
         params: {
@@ -35,17 +40,15 @@ const fetchWorkout = async () => {
           },
         },
       },
-    )
+    ))
 
-    if (!response.data) {
-      error.value = 'Не удалось загрузить упражнение'
-      return
-    }
-
-    workout.value = response.data
+    workout.value = data
   }
-  catch {
-    error.value = 'Произошла ошибка сети при загрузке данных'
+  catch (err) {
+    error.value = getErrorMessage(
+      err,
+      'Не удалось загрузить тренировку',
+    )
   }
   finally {
     isLoading.value = false
@@ -60,6 +63,7 @@ onMounted(() => {
 <template>
   <div class="workout-page">
     <h1 class="workout-page__title">workout-page</h1>
+    <UIErrorMessage :message="error" />
     <div>
       <h3>{{ title }}</h3>
       <p>{{ description }}</p>

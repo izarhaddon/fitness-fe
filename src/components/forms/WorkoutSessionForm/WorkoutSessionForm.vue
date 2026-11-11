@@ -1,4 +1,5 @@
-// src/pages/WorkoutSessionCreatePage/components/WorkoutSessionForm.vue
+// src/components/forms/WorkoutSessionForm/WorkoutSessionForm.vue
+
 <script setup lang="ts">
 import {
   computed,
@@ -9,14 +10,19 @@ import { useRouter } from 'vue-router'
 
 import UIButton from '@/components/UIButton.vue'
 import UIDatePicker from '@/components/UIDatePicker.vue'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 import UISelect from '@/components/UISelect.vue'
+import UITextArea from '@/components/UITextArea.vue'
 import UITimePicker from '@/components/UITimePicker.vue'
 import { RouterNames } from '@/router/types'
 import { useAuthStore } from '@/stores/auth'
 import { api } from '@/utils/api.ts'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 
 import type { Workout } from '@/pages/WorkoutsPage/types'
-import UITextArea from '@/components/UITextArea.vue'
 
 const router = useRouter()
 const { user } = useAuthStore()
@@ -26,6 +32,7 @@ const time = ref<Date>(new Date())
 const workouts = ref<Workout[]>([])
 const workoutId = ref<string>('')
 const notes = ref<string>('')
+const formError = ref<string | null>(null)
 
 const dateTime = computed(() => {
   const year = date.value.getFullYear()
@@ -47,8 +54,10 @@ const dateTime = computed(() => {
 })
 
 async function getWorkouts() {
+  formError.value = null
+
   try {
-    const response = await api.GET(
+    const data = await unwrap(api.GET(
       '/workouts',
       {
         params: {
@@ -57,30 +66,34 @@ async function getWorkouts() {
           },
         },
       },
-    )
-    if (response.data) {
-      workouts.value = response.data.data
-    }
+    ))
+
+    workouts.value = data.data
   }
   catch (err) {
-    console.error(err)
+    formError.value = getErrorMessage(
+      err,
+      'Не удалось загрузить список тренировок',
+    )
   }
 }
 
 async function onSubmit() {
+  formError.value = null
+
   if (!user) {
     return
   }
 
   if (Number.isNaN(dateTime.value.getTime())) {
-    console.error('Некорректная дата или время')
+    formError.value = 'Некорректная дата или время'
     return
   }
 
   const scheduledAt = dateTime.value.toISOString()
 
   try {
-    await api.POST(
+    await unwrap(api.POST(
       '/workout-sessions',
       {
         body: {
@@ -90,14 +103,17 @@ async function onSubmit() {
           notes: notes.value,
         },
       },
-    )
+    ))
 
     router.push({
       name: RouterNames.WorkoutSessionsPage,
     })
   }
   catch (err) {
-    console.error(err)
+    formError.value = getErrorMessage(
+      err,
+      'Ошибка при создании сессии тренировки',
+    )
   }
 }
 
@@ -108,6 +124,8 @@ onMounted(() => {
 
 <template>
   <form @submit.prevent="onSubmit">
+    <UIErrorMessage :message="formError" />
+
     <UIDatePicker
       id="date"
       name="date"

@@ -8,13 +8,18 @@ import {
 } from 'vue'
 
 import { api } from '@/utils/api'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import { workoutSchema } from '@/components/forms/WorkoutForm/schemas'
+import UIButton from '@/components/UIButton.vue'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 import type {
   Workout,
   WorkoutExerciseItemInput,
   Exercise,
 } from '@/components/forms/WorkoutForm/types'
-import UIButton from '@/components/UIButton.vue'
 
 const props = defineProps<{
   initialData?: Workout
@@ -60,7 +65,7 @@ const availableExercises = ref<Exercise[]>([])
 
 onMounted(async () => {
   try {
-    const response = await api.GET(
+    const data = await unwrap(api.GET(
       '/exercises',
       {
         params: {
@@ -69,15 +74,14 @@ onMounted(async () => {
           },
         },
       },
-    )
-    if (response.data) {
-      availableExercises.value = response.data.data.filter(ex => ex.isActive)
-    }
+    ))
+
+    availableExercises.value = data.data.filter(ex => ex.isActive)
   }
-  catch (error) {
-    console.error(
-      'Не удалось загрузить список упражнений:',
-      error,
+  catch (err) {
+    formError.value = getErrorMessage(
+      err,
+      'Не удалось загрузить список упражнений',
     )
   }
 })
@@ -124,7 +128,7 @@ const onSubmit = async () => {
     isLoading.value = true
 
     if (isEditMode.value && props.initialData) {
-      const { error } = await api.PUT(
+      await unwrap(api.PUT(
         '/workouts/{id}',
         {
           params: {
@@ -134,31 +138,24 @@ const onSubmit = async () => {
           },
           body: result.data,
         },
-      )
-
-      if (error) {
-        formError.value = error.error || 'Ошибка при обновлении тренировки'
-        return
-      }
+      ))
     }
     else {
-      const { error } = await api.POST(
+      await unwrap(api.POST(
         '/workouts',
         {
           body: result.data,
         },
-      )
-
-      if (error) {
-        formError.value = error.error || 'Ошибка при создании тренировки'
-        return
-      }
+      ))
     }
 
     emit('success')
   }
-  catch {
-    formError.value = 'Произошла непредвиденная ошибка сети'
+  catch (err) {
+    formError.value = getErrorMessage(
+      err,
+      isEditMode.value ? 'Ошибка при обновлении тренировки' : 'Ошибка при создании тренировки',
+    )
   }
   finally {
     isLoading.value = false
@@ -168,9 +165,7 @@ const onSubmit = async () => {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <p v-if="formError">
-      {{ formError }}
-    </p>
+    <UIErrorMessage :message="formError" />
 
     <fieldset>
       <legend>Основная информация</legend>

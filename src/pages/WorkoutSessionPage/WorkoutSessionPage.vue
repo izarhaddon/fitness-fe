@@ -8,19 +8,27 @@ import {
 } from 'vue'
 import { useRoute } from 'vue-router'
 import { api } from '@/utils/api'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import type { WorkoutSessionHistoryItem } from '@/pages/WorkoutSessionPage/types'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 import WorkoutSessionExercisesList from '@/pages/WorkoutSessionPage/components/WorkoutSessionExercisesList.vue'
 
 const route = useRoute()
 const workoutSession = ref<WorkoutSessionHistoryItem | null>(null)
+const error = ref<string | null>(null)
 
 const workoutSessionNotes = computed(() => workoutSession.value?.notes)
 
 async function getWorkoutSessionById() {
+  error.value = null
+
   try {
     const workoutSessionId = route.params.workoutSessionId as string
     if (workoutSessionId) {
-      const response = await api.GET(
+      const data = await unwrap(api.GET(
         '/workout-sessions/{id}',
         {
           params: {
@@ -29,15 +37,16 @@ async function getWorkoutSessionById() {
             },
           },
         },
-      )
+      ))
 
-      if (response.data) {
-        workoutSession.value = response.data
-      }
+      workoutSession.value = data
     }
   }
   catch (err) {
-    console.error(err)
+    error.value = getErrorMessage(
+      err,
+      'Не удалось загрузить тренировку',
+    )
   }
 }
 
@@ -49,6 +58,7 @@ onMounted(() => {
 <template>
   <div class="workout-session-page">
     <h1 class="workout-session-page__notes">{{ workoutSessionNotes }}</h1>
+    <UIErrorMessage :message="error" />
     <WorkoutSessionExercisesList
       v-if="workoutSession"
       :exercises="workoutSession.exercises"

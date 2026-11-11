@@ -1,8 +1,17 @@
+// src/components/forms/WorkoutSessionSetForm/WorkoutSessionSetForm.vue
+
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import { api } from '@/utils/api.ts'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import UITextInput from '@/components/UITextInput.vue'
 import UICheckbox from '@/components/UICheckbox.vue'
 import UIButton from '@/components/UIButton.vue'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -38,10 +47,14 @@ const isCompleted = defineModel(
   },
 )
 
+const formError = ref<string | null>(null)
+
 async function onSubmit() {
+  formError.value = null
+
   if (props.setId) {
     try {
-      const { error } = await api.PATCH(
+      await unwrap(api.PATCH(
         '/workout-sessions/set',
         {
           body: {
@@ -52,17 +65,18 @@ async function onSubmit() {
             isCompleted: isCompleted.value,
           },
         },
-      )
-      // openapi-fetch не бросает исключение на 4xx/5xx — ошибку API нужно проверять явно
-      if (error) console.error(error.error)
+      ))
     }
-    catch (networkError) {
-      console.error(networkError)
+    catch (err) {
+      formError.value = getErrorMessage(
+        err,
+        'Ошибка при обновлении подхода',
+      )
     }
   }
   else {
     try {
-      const { error } = await api.POST(
+      await unwrap(api.POST(
         '/workout-sessions/set',
         {
           body: {
@@ -73,12 +87,13 @@ async function onSubmit() {
             isCompleted: isCompleted.value,
           },
         },
-      )
-      // openapi-fetch не бросает исключение на 4xx/5xx — ошибку API нужно проверять явно
-      if (error) console.error(error.error)
+      ))
     }
-    catch (networkError) {
-      console.error(networkError)
+    catch (err) {
+      formError.value = getErrorMessage(
+        err,
+        'Ошибка при создании подхода',
+      )
     }
   }
 }
@@ -86,6 +101,8 @@ async function onSubmit() {
 
 <template>
   <form @submit.prevent="onSubmit">
+    <UIErrorMessage :message="formError" />
+
     <UITextInput
       :id="`weight-${sessionExerciseId}`"
       label="Вес"

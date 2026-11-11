@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import UIButton from '@/components/UIButton.vue'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 import WorkoutSessionsPageEmpty from '@/pages/WorkoutSessionsPage/components/WorkoutSessionsPageEmpty.vue'
 import { useWorkoutSessions } from '@/pages/WorkoutSessionsPage/composables/useWorkoutSessions.ts'
 import { onMounted } from 'vue'
@@ -9,7 +10,7 @@ import UISelect from '@/components/UISelect.vue'
 import WorkoutSessionCard from '@/pages/WorkoutSessionsPage/components/WorkoutSessionCard.vue'
 
 const {
-  endDate, startDate, status, sessions, options, onSubmit, getSessions,
+  endDate, startDate, status, sessions, options, onSubmit, getSessions, error,
 }
   = useWorkoutSessions()
 
@@ -20,6 +21,8 @@ onMounted(() => {
 
 <template>
   <div class="workout-sessions-page">
+    <UIErrorMessage :message="error" />
+
     <form @submit.prevent="onSubmit">
       <UIDatePicker
         id="startDate"

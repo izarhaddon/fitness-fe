@@ -7,11 +7,16 @@ import {
 } from 'vue'
 
 import { api } from '@/utils/api'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import { exerciseSchema } from '@/components/forms/ExerciseForm/schemas'
 import type { Exercise } from '@/components/forms/ExerciseForm/types'
 import UIButton from '@/components/UIButton.vue'
 import UITextInput from '@/components/UITextInput.vue'
 import UITextArea from '@/components/UITextArea.vue'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 
 const props = defineProps<{
   initialData?: Exercise
@@ -48,7 +53,7 @@ const onSubmit = async () => {
     isLoading.value = true
 
     if (isEditMode.value && props.initialData) {
-      const { error } = await api.PUT(
+      await unwrap(api.PUT(
         '/exercises/{id}',
         {
           params: {
@@ -58,31 +63,24 @@ const onSubmit = async () => {
           },
           body: result.data,
         },
-      )
-
-      if (error) {
-        formError.value = error.error || 'Ошибка при обновлении упражнения'
-        return
-      }
+      ))
     }
     else {
-      const { error } = await api.POST(
+      await unwrap(api.POST(
         '/exercises',
         {
           body: result.data,
         },
-      )
-
-      if (error) {
-        formError.value = error.error || 'Ошибка при создании упражнения'
-        return
-      }
+      ))
     }
 
     emit('success')
   }
-  catch {
-    formError.value = 'Произошла непредвиденная ошибка сети'
+  catch (err) {
+    formError.value = getErrorMessage(
+      err,
+      isEditMode.value ? 'Ошибка при обновлении упражнения' : 'Ошибка при создании упражнения',
+    )
   }
   finally {
     isLoading.value = false
@@ -92,11 +90,7 @@ const onSubmit = async () => {
 
 <template>
   <form @submit.prevent="onSubmit">
-    <div>
-      <p v-if="formError">
-        {{ formError }}
-      </p>
-    </div>
+    <UIErrorMessage :message="formError" />
 
     <UITextInput
       id="name"

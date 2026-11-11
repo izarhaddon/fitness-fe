@@ -4,10 +4,15 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { api } from '@/utils/api.ts'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import { registerSchema } from '@/components/forms/RegistrationForm/schemas'
 import UIButton from '@/components/UIButton.vue'
 import UITextInput from '@/components/UITextInput.vue'
 import UISelect from '@/components/UISelect.vue'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 
 const router = useRouter()
 
@@ -48,30 +53,24 @@ const onSubmit = async () => {
   }
 
   try {
-    const {
-      data, error,
-    } = await api.POST(
+    const data = await unwrap(api.POST(
       '/auth/registration',
       {
         body: result.data,
       },
+    ))
+
+    localStorage.setItem(
+      'token',
+      data.token,
     )
-
-    if (error) {
-      formError.value = error.error || 'Ошибка при регистрации'
-      return
-    }
-
-    if (data) {
-      localStorage.setItem(
-        'token',
-        data.token,
-      )
-      await router.push('/')
-    }
+    await router.push('/')
   }
-  catch {
-    formError.value = 'Произошла непредвиденная ошибка сети'
+  catch (err) {
+    formError.value = getErrorMessage(
+      err,
+      'Ошибка при регистрации',
+    )
   }
   finally {
     isLoading.value = false
@@ -84,12 +83,7 @@ const onSubmit = async () => {
     @submit.prevent="onSubmit"
     class="registration-form"
   >
-    <div
-      v-if="formError"
-      class="error-message"
-    >
-      {{ formError }}
-    </div>
+    <UIErrorMessage :message="formError" />
 
     <UITextInput
       id="name"

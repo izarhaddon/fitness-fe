@@ -8,15 +8,23 @@ import {
 import { useRoute } from 'vue-router'
 
 import { api } from '@/utils/api'
+import {
+  getErrorMessage,
+  unwrap,
+} from '@/utils/apiError'
 import ExerciseForm from '@/components/forms/ExerciseForm/ExerciseForm.vue'
+import UIErrorMessage from '@/components/UIErrorMessage.vue'
 import type { Exercise } from '@/pages/ExerciseEditPage/types'
 
 const route = useRoute()
 
 const exercise = ref<Exercise | undefined>(undefined)
 const isLoading = ref<boolean>(true)
+const error = ref<string | null>(null)
 
 const fetchExercise = async () => {
+  error.value = null
+
   const id = route.params.exerciseId as string
 
   if (!id) {
@@ -25,7 +33,7 @@ const fetchExercise = async () => {
   }
 
   try {
-    const response = await api.GET(
+    const data = await unwrap(api.GET(
       '/exercises/{id}',
       {
         params: {
@@ -34,16 +42,14 @@ const fetchExercise = async () => {
           },
         },
       },
-    )
+    ))
 
-    if (response.data) {
-      exercise.value = response.data
-    }
+    exercise.value = data
   }
-  catch (error) {
-    console.error(
-      'Ошибка при загрузке упражнения:',
-      error,
+  catch (err) {
+    error.value = getErrorMessage(
+      err,
+      'Не удалось загрузить упражнение',
     )
   }
   finally {
@@ -59,6 +65,7 @@ onMounted(() => {
 <template>
   <div class="exercise-edit-page">
     <h1 class="exercise-edit-page__title">exercise-edit-page</h1>
+    <UIErrorMessage :message="error" />
     <ExerciseForm
       v-if="exercise"
       :initial-data="exercise"
