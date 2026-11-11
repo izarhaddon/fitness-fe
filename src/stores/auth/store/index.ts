@@ -77,6 +77,11 @@ export const useAuthStore = defineStore(
 
         user.value = data
       }
+      catch {
+        // Сеть или сервер недоступны: токен не трогаем (он может быть валидным), пользователь остаётся неавторизованным
+        user.value = null
+        error.value = 'Сервер недоступен, попробуйте позже'
+      }
       finally {
         isLoading.value = false
       }
@@ -89,14 +94,26 @@ export const useAuthStore = defineStore(
       localStorage.removeItem('token')
     }
 
-    async function init() {
-      if (isInitialized.value) return
+    // Один общий запрос на все одновременные вызовы (стор и роутер вызывают init почти одновременно)
+    let initPromise: Promise<void> | null = null
 
+    async function runInit() {
       if (token.value && !user.value) {
         await fetchMe()
       }
 
-      isInitialized.value = true
+      // Если сервер был недоступен (токен есть, пользователя нет) — повторим при следующей навигации
+      isInitialized.value = !token.value || !!user.value
+    }
+
+    function init(): Promise<void> {
+      if (isInitialized.value) return Promise.resolve()
+
+      initPromise ??= runInit().finally(() => {
+        initPromise = null
+      })
+
+      return initPromise
     }
 
     void init()

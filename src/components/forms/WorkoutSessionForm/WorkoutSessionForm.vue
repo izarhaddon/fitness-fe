@@ -77,8 +77,6 @@ async function onSubmit() {
     return
   }
 
-  console.log(dateTime.value)
-
   const scheduledAt = dateTime.value.toISOString()
 
   try {

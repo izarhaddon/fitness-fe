@@ -41,7 +41,7 @@ const isCompleted = defineModel(
 async function onSubmit() {
   if (props.setId) {
     try {
-      const response = await api.PATCH(
+      const { error } = await api.PATCH(
         '/workout-sessions/set',
         {
           body: {
@@ -53,14 +53,16 @@ async function onSubmit() {
           },
         },
       )
+      // openapi-fetch не бросает исключение на 4xx/5xx — ошибку API нужно проверять явно
+      if (error) console.error(error.error)
     }
-    catch (error) {
-      console.error(error)
+    catch (networkError) {
+      console.error(networkError)
     }
   }
   else {
     try {
-      const response = await api.POST(
+      const { error } = await api.POST(
         '/workout-sessions/set',
         {
           body: {
@@ -72,9 +74,11 @@ async function onSubmit() {
           },
         },
       )
+      // openapi-fetch не бросает исключение на 4xx/5xx — ошибку API нужно проверять явно
+      if (error) console.error(error.error)
     }
-    catch (error) {
-      console.error(error)
+    catch (networkError) {
+      console.error(networkError)
     }
   }
 }

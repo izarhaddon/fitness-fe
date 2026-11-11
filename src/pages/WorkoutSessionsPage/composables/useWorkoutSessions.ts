@@ -1,7 +1,6 @@
 import { ref } from 'vue'
 import {
   endOfDay,
-  format,
   parseISO,
   startOfDay,
 } from 'date-fns'
@@ -42,10 +41,9 @@ export const useWorkoutSessions = () => {
       date = endOfDay(date)
     }
 
-    return format(
-      date,
-      'yyyy-MM-dd\'T\'HH:mm:ss\'Z\'',
-    )
+    // Границы дня берём в локальном времени пользователя и отправляем в UTC.
+    // Раньше локальное время отправлялось с суффиксом Z (как будто это UTC) — фильтр съезжал на часовой пояс
+    return date.toISOString()
   }
 
   async function getSessions() {

@@ -155,6 +155,15 @@ export default defineConfigWithVueTs(
       'custom/specifiers-newline': 'error',
       'custom/compact-brackets': 'error',
 
+      // Строку с апострофом можно писать в двойных кавычках — иначе eslint требует \', а oxlint ругается на лишнее экранирование
+      '@stylistic/quotes': [
+        'error',
+        'single',
+        {
+          avoidEscape: true,
+        },
+      ],
+
       'object-property-newline': [
         'error',
         {

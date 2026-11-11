@@ -21,7 +21,7 @@ async function getWorkoutSessionById() {
     const workoutSessionId = route.params.workoutSessionId as string
     if (workoutSessionId) {
       const response = await api.GET(
-        `/workout-sessions/{id}`,
+        '/workout-sessions/{id}',
         {
           params: {
             path: {

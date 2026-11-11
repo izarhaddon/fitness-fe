@@ -31,18 +31,23 @@ function changeDate(event: Event) {
     min,
   ] = target.value.split(':').map(item => Number(item))
 
-  if (hours && min) {
-    const time = new Date()
-      .setHours(
-        hours,
-        min,
-      )
-
-    emits(
-      'update:time',
-      new Date(time),
-    )
+  // 0 часов или 0 минут — валидное время, отсекаем только пустое/некорректное значение
+  if (hours === undefined || min === undefined || Number.isNaN(hours) || Number.isNaN(min)) {
+    return
   }
+
+  const time = new Date(props.time)
+  time.setHours(
+    hours,
+    min,
+    0,
+    0,
+  )
+
+  emits(
+    'update:time',
+    time,
+  )
 }
 </script>
 
