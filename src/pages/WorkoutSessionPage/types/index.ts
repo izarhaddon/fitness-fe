@@ -4,3 +4,4 @@ import type { components } from '@/types/api'
 
 export type WorkoutSessionHistoryItem = components['schemas']['WorkoutSessionHistoryItem']
 export type SessionExercise = components['schemas']['SessionExerciseResponse']
+export type AddSessionSetRequest = components['schemas']['AddSessionSetRequest']

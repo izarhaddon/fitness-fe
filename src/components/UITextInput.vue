@@ -1,3 +1,4 @@
+// src/components/UITextInput.vue
 <script setup lang="ts">
 import UILabel from '@/components/UILabel.vue'
 
@@ -6,7 +7,7 @@ withDefaults(
     id: string
     label: string
     name: string
-    type?: 'text' | 'password' | 'email'
+    type?: 'text' | 'password' | 'email' | 'number'
     disabled?: boolean
     required?: boolean
     readonly?: boolean
@@ -16,7 +17,7 @@ withDefaults(
   },
 )
 
-const value = defineModel<string>(
+const value = defineModel<string | number>(
   'value',
   {
     default: '',

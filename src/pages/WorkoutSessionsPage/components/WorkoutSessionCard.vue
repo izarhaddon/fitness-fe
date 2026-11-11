@@ -40,6 +40,6 @@ function changeRoute(workoutSessionId: string) {
 .workout-session-card {
   padding: 16px;
   border-radius: 4px;
-  border: 1px solid #e4e4e4;
+  border: 1px solid var(--border-color);
 }
 </style>

@@ -22,5 +22,3 @@ defineProps<{ exercises: SessionExercise[] }>()
     />
   </div>
 </template>
-
-<style scoped></style>

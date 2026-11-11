@@ -23,7 +23,7 @@ withDefaults(
 
 <style scoped lang="scss">
 .ui-button {
-  border: 1px solid darkgray;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
 }
 </style>

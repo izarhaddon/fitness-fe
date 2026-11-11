@@ -1,6 +1,7 @@
 // src/pages/WorkoutSessionCreatePage/components/WorkoutSessionForm.vue
 <script setup lang="ts">
 import {
+  computed,
   onMounted,
   ref,
 } from 'vue'
@@ -25,6 +26,25 @@ const time = ref<Date>(new Date())
 const workouts = ref<Workout[]>([])
 const workoutId = ref<string>('')
 const notes = ref<string>('')
+
+const dateTime = computed(() => {
+  const year = date.value.getFullYear()
+  const month = date.value.getMonth()
+  const day = date.value.getDate()
+
+  const hours = time.value.getHours()
+  const minutes = time.value.getMinutes()
+
+  return new Date(
+    year,
+    month,
+    day,
+    hours,
+    minutes,
+    0,
+    0,
+  )
+})
 
 async function getWorkouts() {
   try {
@@ -52,29 +72,14 @@ async function onSubmit() {
     return
   }
 
-  const year = date.value.getFullYear()
-  const month = date.value.getMonth()
-  const day = date.value.getDate()
-
-  const hours = time.value.getHours()
-  const minutes = time.value.getMinutes()
-
-  const dateObj = new Date(
-    year,
-    month,
-    day,
-    hours,
-    minutes,
-    0,
-    0,
-  )
-
-  if (Number.isNaN(dateObj.getTime())) {
+  if (Number.isNaN(dateTime.value.getTime())) {
     console.error('Некорректная дата или время')
     return
   }
 
-  const scheduledAt = dateObj.toISOString()
+  console.log(dateTime.value)
+
+  const scheduledAt = dateTime.value.toISOString()
 
   try {
     await api.POST(

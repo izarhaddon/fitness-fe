@@ -25,10 +25,24 @@ const emits = defineEmits<{ (e: 'update:time', time: Date): void }>()
 
 function changeDate(event: Event) {
   const target = event.target as HTMLInputElement
-  emits(
-    'update:time',
-    new Date(target.value),
-  )
+
+  const [
+    hours,
+    min,
+  ] = target.value.split(':').map(item => Number(item))
+
+  if (hours && min) {
+    const time = new Date()
+      .setHours(
+        hours,
+        min,
+      )
+
+    emits(
+      'update:time',
+      new Date(time),
+    )
+  }
 }
 </script>
 
