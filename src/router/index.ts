@@ -86,6 +86,7 @@ const router = createRouter({
       component: ExerciseCreatePage,
       meta: {
         requiresAuth: true,
+        requiresRole: 'admin',
       },
     },
     {
@@ -102,6 +103,7 @@ const router = createRouter({
       component: ExerciseEditPage,
       meta: {
         requiresAuth: true,
+        requiresRole: 'admin',
       },
     },
     {

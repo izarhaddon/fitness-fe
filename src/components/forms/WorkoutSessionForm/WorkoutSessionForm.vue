@@ -87,7 +87,6 @@ async function onSubmit() {
       {
         body: {
           workoutId: workoutId.value,
-          userId: user.id,
           scheduledAt,
           status: 'PLANNED',
           notes: notes.value,

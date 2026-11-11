@@ -7,7 +7,6 @@ import {
 } from 'date-fns'
 import { useAuthStore } from '@/stores/auth'
 import type { WorkoutSessionHistoryItem } from '@/pages/WorkoutSessionsPage/types'
-import { useRouter } from 'vue-router'
 import { api } from '@/utils/api.ts'
 
 export const useWorkoutSessions = () => {
@@ -15,8 +14,6 @@ export const useWorkoutSessions = () => {
 
   const startDate = ref<Date>(startOfDay(new Date()))
   const endDate = ref<Date>(endOfDay(new Date()))
-
-  const router = useRouter()
 
   const options = [
     {
@@ -47,7 +44,7 @@ export const useWorkoutSessions = () => {
 
     return format(
       date,
-      `yyyy-MM-dd\'T\'HH:mm:ss\'Z\'`,
+      'yyyy-MM-dd\'T\'HH:mm:ss\'Z\'',
     )
   }
 
@@ -56,7 +53,6 @@ export const useWorkoutSessions = () => {
 
     try {
       const query = {
-        userId: user.id,
         startDate: formatLocalDateTime(
           startDate.value,
           false,

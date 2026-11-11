@@ -8,9 +8,11 @@ import {
 import { useRoute } from 'vue-router'
 
 import { api } from '@/utils/api'
+import { useAuthStore } from '@/stores/auth'
 import type { Exercise } from '@/pages/ExercisePage/types'
 
 const route = useRoute()
+const authStore = useAuthStore()
 
 const exercise = ref<Exercise | null>(null)
 const isLoading = ref<boolean>(true)
@@ -63,7 +65,7 @@ onMounted(() => {
       <h3>{{ title }}</h3>
       <p>{{ description }}</p>
     </div>
-    <div>
+    <div v-if="authStore.isAdmin">
       <router-link :to="{ name: 'ExerciseEditPage', params: { exerciseId } }">
         Редактировать
       </router-link>

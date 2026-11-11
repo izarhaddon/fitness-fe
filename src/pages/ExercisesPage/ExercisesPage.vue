@@ -6,8 +6,11 @@ import {
   ref,
 } from 'vue'
 import { api } from '@/utils/api'
+import { useAuthStore } from '@/stores/auth'
 import type { Exercise } from '@/pages/ExercisesPage/types'
 import ExercisesTable from '@/pages/ExercisesPage/components/ExerciseTable/ExercisesTable.vue'
+
+const authStore = useAuthStore()
 
 const exercises = ref<Exercise[]>([])
 const isLoading = ref<boolean>(false)
@@ -53,7 +56,7 @@ onMounted(() => {
   <div class="exercises-page">
     <h1 class="exercises-page__title">Справочник упражнений</h1>
 
-    <div>
+    <div v-if="authStore.isAdmin">
       <router-link :to="{ name: 'ExerciseCreatePage' }"> Создать новое упражнение </router-link>
     </div>
 

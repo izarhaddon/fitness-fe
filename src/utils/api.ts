@@ -23,8 +23,22 @@ api.use({
 })
 
 api.use({
-  async onResponse({ response }) {
-    if (response.status === 401) {
+  async onResponse({
+    request,
+    response,
+  }) {
+    const isAuthRequest = request.url.endsWith('/auth/login') || request.url.endsWith('/auth/registration')
+
+    if (response.status === 401 && !isAuthRequest) {
+      localStorage.removeItem('token')
+
+      const loginPath = `${import.meta.env.BASE_URL}login`
+
+      if (window.location.pathname !== loginPath) {
+        const redirectPath = encodeURIComponent(`${window.location.pathname}${window.location.search}`)
+
+        window.location.assign(`${loginPath}?redirect=${redirectPath}`)
+      }
     }
 
     return response

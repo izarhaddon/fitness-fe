@@ -4,1740 +4,1771 @@
  */
 
 export interface paths {
-    "/auth/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["LoginInput"];
-                };
-            };
-            responses: {
-                /** @description Успешный вход */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AuthResponse"];
-                    };
-                };
-                /** @description Неверный email или пароль */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/registration": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["RegisterInput"];
-                };
-            };
-            responses: {
-                /** @description Пользователь успешно создан */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AuthResponse"];
-                    };
-                };
-                /** @description Ошибка валидации или email уже занят */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/auth/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Данные текущего пользователя */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["User"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/roles": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Список ролей с пагинацией */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["RoleListResponse"];
-                    };
-                };
-                /** @description Ошибка валидации параметров */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/exercises": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                    search?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Список упражнений с пагинацией */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ExerciseListResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["CreateExerciseRequest"];
-                };
-            };
-            responses: {
-                /** @description Упражнение создано */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ExerciseResponse"];
-                    };
-                };
-                /** @description Ошибка валидации */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/exercises/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Упражнение найдено */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ExerciseResponse"];
-                    };
-                };
-                /** @description Упражнение не найдено */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["UpdateExerciseRequest"];
-                };
-            };
-            responses: {
-                /** @description Упражнение обновлено */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["ExerciseResponse"];
-                    };
-                };
-                /** @description Упражнение не найдено */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Упражнение деактивировано (Soft Delete) */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SuccessMessage"];
-                    };
-                };
-                /** @description Упражнение не найдено */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workouts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Список тренировок с пагинацией */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutListResponse"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["CreateWorkoutRequest"];
-                };
-            };
-            responses: {
-                /** @description Тренировка успешно создана */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutResponse"];
-                    };
-                };
-                /** @description Ошибка валидации данных */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Одно или несколько упражнений не найдены */
-                422: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["UnprocessableEntity"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workouts/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Тренировка найдена */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutResponse"];
-                    };
-                };
-                /** @description Тренировка не найдена */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["UpdateWorkoutRequest"];
-                };
-            };
-            responses: {
-                /** @description Тренировка обновлена */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutResponse"];
-                    };
-                };
-                /** @description Ошибка валидации данных */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Тренировка не найдена */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Одно или несколько упражнений не найдены */
-                422: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["UnprocessableEntity"];
-                    };
-                };
-            };
-        };
-        post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Тренировка удалена (каскадно) */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SuccessMessage"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Тренировка не найдена */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workouts/{workoutId}/exercises": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    workoutId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["AddExerciseToWorkoutRequest"];
-                };
-            };
-            responses: {
-                /** @description Упражнение добавлено в тренировку */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutResponse"];
-                    };
-                };
-                /** @description Ошибка валидации данных */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Тренировка не найдена */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Упражнение не найдено в справочнике */
-                422: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["UnprocessableEntity"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workouts/{workoutId}/exercises/{exerciseId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    workoutId: string;
-                    exerciseId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Упражнение удалено из тренировки */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SuccessMessage"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Упражнение не найдено в этой тренировке */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    workoutId: string;
-                    exerciseId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["UpdateWorkoutExerciseRequest"];
-                };
-            };
-            responses: {
-                /** @description Параметры упражнения обновлены */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutResponse"];
-                    };
-                };
-                /** @description Ошибка валидации данных */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Упражнение не найдено в этой тренировке */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        trace?: never;
-    };
-    "/assignments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["AssignWorkoutInput"];
-                };
-            };
-            responses: {
-                /** @description Тренировка назначена пользователю */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutAssignment"];
-                    };
-                };
-                /** @description Уже назначена или пользователь не спортсмен */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/assignments/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Мои назначенные тренировки */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AssignmentListResponse"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/assignments/user/{userId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: {
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path: {
-                    userId: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Назначения конкретного пользователя */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["AssignmentListResponse"];
-                    };
-                };
-                /** @description Пользователь не найден */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/assignments/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Назначение отменено */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SuccessMessage"];
-                    };
-                };
-                /** @description Назначение не найдено */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workout-sessions": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["CreateSessionRequest"];
-                };
-            };
-            responses: {
-                /** @description Сессия тренировки успешно создана */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutSessionHistoryItem"];
-                    };
-                };
-                /** @description Ошибка валидации данных */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Шаблон тренировки не найден */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workout-sessions/history": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query: {
-                    userId: string;
-                    startDate: string;
-                    endDate: string;
-                    status?: "PLANNED" | "COMPLETED" | "SKIPPED";
-                    page?: number;
-                    limit?: number;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description История тренировок успешно получена */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutSessionHistoryResponse"];
-                    };
-                };
-                /** @description Ошибка валидации параметров */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workout-sessions/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Сессия тренировки успешно получена */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutSessionHistoryItem"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Сессия тренировки не найдена */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/workout-sessions/status": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["UpdateSessionStatusRequest"];
-                };
-            };
-            responses: {
-                /** @description Статус сессии успешно обновлен */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["WorkoutSessionHistoryItem"];
-                    };
-                };
-                /** @description Ошибка валидации данных */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        trace?: never;
-    };
-    "/workout-sessions/set": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["AddSessionSetRequest"];
-                };
-            };
-            responses: {
-                /** @description Дополнительный подход успешно добавлен */
-                201: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SessionSetResponse"];
-                    };
-                };
-                /** @description Ошибка валидации данных */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["DeleteSessionSetRequest"];
-                };
-            };
-            responses: {
-                /** @description Подход успешно удален */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SuccessMessage"];
-                    };
-                };
-                /** @description Нельзя удалить последний подход или ошибка валидации */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Подход не найден */
-                404: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        options?: never;
-        head?: never;
-        patch: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: {
-                content: {
-                    "application/json": components["schemas"]["UpdateSessionSetRequest"];
-                };
-            };
-            responses: {
-                /** @description Подход успешно обновлен */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["SessionSetResponse"];
-                    };
-                };
-                /** @description Ошибка валидации данных */
-                400: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-                /** @description Неавторизован */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content: {
-                        "application/json": components["schemas"]["Error"];
-                    };
-                };
-            };
-        };
-        trace?: never;
-    };
+  '/auth/login': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['LoginInput']
+        }
+      }
+      responses: {
+        /** @description Успешный вход */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['AuthResponse']
+          }
+        }
+        /** @description Неверный email или пароль */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/auth/registration': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['RegisterInput']
+        }
+      }
+      responses: {
+        /** @description Пользователь успешно создан */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['AuthResponse']
+          }
+        }
+        /** @description Ошибка валидации или email уже занят */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/auth/me': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Данные текущего пользователя */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['User']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/roles': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          page?: number
+          limit?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Список ролей с пагинацией */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['RoleListResponse']
+          }
+        }
+        /** @description Ошибка валидации параметров */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/exercises': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          page?: number
+          limit?: number
+          search?: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Список упражнений с пагинацией */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ExerciseListResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['CreateExerciseRequest']
+        }
+      }
+      responses: {
+        /** @description Упражнение создано */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ExerciseResponse']
+          }
+        }
+        /** @description Ошибка валидации */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/exercises/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Упражнение найдено */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ExerciseResponse']
+          }
+        }
+        /** @description Упражнение не найдено */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['UpdateExerciseRequest']
+        }
+      }
+      responses: {
+        /** @description Упражнение обновлено */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['ExerciseResponse']
+          }
+        }
+        /** @description Упражнение не найдено */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    post?: never
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Упражнение деактивировано (Soft Delete) */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SuccessMessage']
+          }
+        }
+        /** @description Упражнение не найдено */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workouts': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          page?: number
+          limit?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Список тренировок с пагинацией */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutListResponse']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['CreateWorkoutRequest']
+        }
+      }
+      responses: {
+        /** @description Тренировка успешно создана */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutResponse']
+          }
+        }
+        /** @description Ошибка валидации данных */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Одно или несколько упражнений не найдены */
+        422: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['UnprocessableEntity']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workouts/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Тренировка найдена */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutResponse']
+          }
+        }
+        /** @description Тренировка не найдена */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['UpdateWorkoutRequest']
+        }
+      }
+      responses: {
+        /** @description Тренировка обновлена */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutResponse']
+          }
+        }
+        /** @description Ошибка валидации данных */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Тренировка не найдена */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Одно или несколько упражнений не найдены */
+        422: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['UnprocessableEntity']
+          }
+        }
+      }
+    }
+    post?: never
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Тренировка удалена (каскадно) */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SuccessMessage']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Тренировка не найдена */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workouts/{workoutId}/exercises': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          workoutId: string
+        }
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['AddExerciseToWorkoutRequest']
+        }
+      }
+      responses: {
+        /** @description Упражнение добавлено в тренировку */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutResponse']
+          }
+        }
+        /** @description Ошибка валидации данных */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Тренировка не найдена */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Упражнение не найдено в справочнике */
+        422: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['UnprocessableEntity']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workouts/{workoutId}/exercises/{exerciseId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          workoutId: string
+          exerciseId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Упражнение удалено из тренировки */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SuccessMessage']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Упражнение не найдено в этой тренировке */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          workoutId: string
+          exerciseId: string
+        }
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['UpdateWorkoutExerciseRequest']
+        }
+      }
+      responses: {
+        /** @description Параметры упражнения обновлены */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutResponse']
+          }
+        }
+        /** @description Ошибка валидации данных */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Упражнение не найдено в этой тренировке */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    trace?: never
+  }
+  '/assignments': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['AssignWorkoutInput']
+        }
+      }
+      responses: {
+        /** @description Тренировка назначена пользователю */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutAssignment']
+          }
+        }
+        /** @description Уже назначена или пользователь не спортсмен */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/assignments/me': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          page?: number
+          limit?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Мои назначенные тренировки */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['AssignmentListResponse']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/assignments/user/{userId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          page?: number
+          limit?: number
+        }
+        header?: never
+        path: {
+          userId: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Назначения конкретного пользователя */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['AssignmentListResponse']
+          }
+        }
+        /** @description Пользователь не найден */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/assignments/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Назначение отменено */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SuccessMessage']
+          }
+        }
+        /** @description Назначение не найдено */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workout-sessions': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['CreateSessionRequest']
+        }
+      }
+      responses: {
+        /** @description Сессия тренировки успешно создана */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutSessionHistoryItem']
+          }
+        }
+        /** @description Ошибка валидации данных */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Тренировка не найдена */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workout-sessions/history': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query: {
+          startDate: string
+          endDate: string
+          status?: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
+          page?: number
+          limit?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description История тренировок успешно получена */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutSessionHistoryResponse']
+          }
+        }
+        /** @description Ошибка валидации параметров */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workout-sessions/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description Сессия тренировки успешно получена */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutSessionHistoryItem']
+          }
+        }
+        /** @description Некорректный ID сессии */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Сессия тренировки не найдена */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/workout-sessions/status': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['UpdateSessionStatusRequest']
+        }
+      }
+      responses: {
+        /** @description Статус сессии успешно обновлен */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['WorkoutSessionHistoryItem']
+          }
+        }
+        /** @description Ошибка валидации данных */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Сессия тренировки не найдена */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    trace?: never
+  }
+  '/workout-sessions/set': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['AddSessionSetRequest']
+        }
+      }
+      responses: {
+        /** @description Дополнительный подход успешно добавлен */
+        201: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SessionSetResponse']
+          }
+        }
+        /** @description Ошибка валидации данных */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Упражнение в сессии не найдено */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['DeleteSessionSetRequest']
+        }
+      }
+      responses: {
+        /** @description Подход успешно удален */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SuccessMessage']
+          }
+        }
+        /** @description Нельзя удалить последний подход или ошибка валидации */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Подход не найден */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    options?: never
+    head?: never
+    patch: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          'application/json': components['schemas']['UpdateSessionSetRequest']
+        }
+      }
+      responses: {
+        /** @description Подход успешно обновлен */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['SessionSetResponse']
+          }
+        }
+        /** @description Ошибка валидации данных */
+        400: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Неавторизован */
+        401: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+        /** @description Подход не найден */
+        404: {
+          headers: {
+            [name: string]: unknown
+          }
+          content: {
+            'application/json': components['schemas']['Error']
+          }
+        }
+      }
+    }
+    trace?: never
+  }
 }
-export type webhooks = Record<string, never>;
+export type webhooks = Record<string, never>
 export interface components {
-    schemas: {
-        SessionSetResponse: {
-            /** Format: uuid */
-            id: string;
-            order: number;
-            weight: number;
-            repetitions: number;
-            isCompleted: boolean;
-        };
-        SessionExerciseResponse: {
-            /** Format: uuid */
-            id: string;
-            /** Format: uuid */
-            sessionId: string;
-            /** Format: uuid */
-            exerciseId: string;
-            order: number;
-            notes: string | null;
-            exercise: {
-                /** Format: uuid */
-                id: string;
-                name: string;
-            };
-            sets: components["schemas"]["SessionSetResponse"][];
-        };
-        WorkoutSessionHistoryItem: {
-            /** Format: uuid */
-            id: string;
-            /** Format: uuid */
-            userId: string;
-            /** Format: uuid */
-            workoutId: string;
-            /** Format: date-time */
-            scheduledAt: string;
-            /** @enum {string} */
-            status: "PLANNED" | "COMPLETED" | "SKIPPED";
-            /** Format: date-time */
-            completedAt: string | null;
-            notes: string | null;
-            workout: {
-                /** Format: uuid */
-                id: string;
-                name: string;
-            };
-            exercises: components["schemas"]["SessionExerciseResponse"][];
-        };
-        WorkoutSessionHistoryResponse: {
-            data: components["schemas"]["WorkoutSessionHistoryItem"][];
-            pagination: components["schemas"]["PaginationResponse"];
-        };
-        PaginationResponse: {
-            page: number;
-            limit: number;
-            total: number;
-            totalPages: number;
-        };
-        AuthResponse: {
-            user: components["schemas"]["User"];
-            token: string;
-        };
-        User: {
-            /** Format: uuid */
-            id: string;
-            /** Format: email */
-            email: string;
-            name: string;
-            /** @enum {string} */
-            roleSlug: "admin" | "trainer" | "athlete";
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-        };
-        Error: {
-            error: string;
-            details?: unknown[];
-        };
-        LoginInput: {
-            /**
+  schemas: {
+    SessionSetResponse: {
+      /** Format: uuid */
+      id: string
+      order: number
+      weight: number
+      repetitions: number
+      isCompleted: boolean
+    }
+    SessionExerciseResponse: {
+      /** Format: uuid */
+      id: string
+      /** Format: uuid */
+      sessionId: string
+      /** Format: uuid */
+      exerciseId: string
+      order: number
+      notes: string | null
+      exercise: {
+        /** Format: uuid */
+        id: string
+        name: string
+      }
+      sets: components['schemas']['SessionSetResponse'][]
+    }
+    WorkoutSessionHistoryItem: {
+      /** Format: uuid */
+      id: string
+      /** Format: uuid */
+      userId: string
+      /** Format: uuid */
+      workoutId: string
+      /** Format: date-time */
+      scheduledAt: string
+      /** @enum {string} */
+      status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
+      /** Format: date-time */
+      completedAt: string | null
+      notes: string | null
+      workout: {
+        /** Format: uuid */
+        id: string
+        name: string
+      }
+      exercises: components['schemas']['SessionExerciseResponse'][]
+    }
+    WorkoutSessionHistoryResponse: {
+      data: components['schemas']['WorkoutSessionHistoryItem'][]
+      pagination: components['schemas']['PaginationResponse']
+    }
+    PaginationResponse: {
+      page: number
+      limit: number
+      total: number
+      totalPages: number
+    }
+    AuthResponse: {
+      user: components['schemas']['User']
+      token: string
+    }
+    User: {
+      /** Format: uuid */
+      id: string
+      /** Format: email */
+      email: string
+      name: string
+      /** @enum {string} */
+      roleSlug: 'admin' | 'trainer' | 'athlete'
+      /** Format: date-time */
+      createdAt: string
+      /** Format: date-time */
+      updatedAt: string
+    }
+    Error: {
+      error: string
+      details?: unknown[]
+    }
+    LoginInput: {
+      /**
              * Format: email
              * @description Email пользователя
              * @example test@test.test
              */
-            email: string;
-            /**
+      email: string
+      /**
              * @description Пароль (минимум 4 символов)
              * @example test
              */
-            password: string;
-        };
-        RegisterInput: {
-            /**
+      password: string
+    }
+    RegisterInput: {
+      /**
              * Format: email
              * @example new@test.test
              */
-            email: string;
-            /** @example password123 */
-            password: string;
-            /** @example Иван Иванов */
-            name?: string;
-            /**
+      email: string
+      /** @example password123 */
+      password: string
+      /** @example Иван Иванов */
+      name?: string
+      /**
              * @description Роль пользователя (admin нельзя создать через API)
              * @default athlete
              * @example athlete
              * @enum {string}
              */
-            roleSlug: "trainer" | "athlete";
-        };
-        RoleListResponse: {
-            data: components["schemas"]["Role"][];
-            pagination: components["schemas"]["PaginationResponse"];
-        };
-        Role: {
-            /** Format: uuid */
-            id: string;
-            name: string;
-            slug: string;
-        };
-        ExerciseListResponse: {
-            data: components["schemas"]["ExerciseResponse"][];
-            pagination: components["schemas"]["PaginationResponse"];
-        };
-        ExerciseResponse: {
-            /** Format: uuid */
-            id: string;
-            name: string;
-            description: string | null;
-            isActive: boolean;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-        };
-        CreateExerciseRequest: {
-            /**
+      roleSlug: 'trainer' | 'athlete'
+    }
+    RoleListResponse: {
+      data: components['schemas']['Role'][]
+      pagination: components['schemas']['PaginationResponse']
+    }
+    Role: {
+      /** Format: uuid */
+      id: string
+      name: string
+      slug: string
+    }
+    ExerciseListResponse: {
+      data: components['schemas']['ExerciseResponse'][]
+      pagination: components['schemas']['PaginationResponse']
+    }
+    ExerciseResponse: {
+      /** Format: uuid */
+      id: string
+      name: string
+      description: string | null
+      isActive: boolean
+      /** Format: date-time */
+      createdAt: string
+      /** Format: date-time */
+      updatedAt: string
+    }
+    CreateExerciseRequest: {
+      /**
              * @description Название упражнения из справочника
              * @example Приседания со штангой
              */
-            name: string;
-            /**
+      name: string
+      /**
              * @description Описание техники выполнения
              * @example Базовое многосуставное упражнение для развития мышц ног
              */
-            description?: string | null;
-            /**
+      description?: string | null
+      /**
              * @description Статус активности (true = видно в справочнике)
              * @default true
              * @example true
              */
-            isActive: boolean;
-        };
-        UpdateExerciseRequest: {
-            /**
+      isActive: boolean
+    }
+    UpdateExerciseRequest: {
+      /**
              * @description Название упражнения из справочника
              * @example Приседания со штангой
              */
-            name?: string;
-            /**
+      name?: string
+      /**
              * @description Описание техники выполнения
              * @example Базовое многосуставное упражнение для развития мышц ног
              */
-            description?: string | null;
-            /**
+      description?: string | null
+      /**
              * @description Статус активности (true = видно в справочнике)
              * @default true
              * @example true
              */
-            isActive: boolean;
-        };
-        SuccessMessage: {
-            message: string;
-        };
-        WorkoutListResponse: {
-            data: components["schemas"]["WorkoutResponse"][];
-            pagination: components["schemas"]["PaginationResponse"];
-        };
-        WorkoutResponse: {
-            /** Format: uuid */
-            id: string;
-            name: string;
-            description: string | null;
-            isActive: boolean;
-            /** Format: uuid */
-            creatorId: string;
-            /** Format: date-time */
-            createdAt: string;
-            /** Format: date-time */
-            updatedAt: string;
-            exercises: components["schemas"]["WorkoutExerciseResponse"][];
-        };
-        WorkoutExerciseResponse: {
-            /** Format: uuid */
-            id: string;
-            /** Format: uuid */
-            exerciseId: string;
-            order: number;
-            sets: number;
-            repetitions: number;
-            weight: number;
-            exercise: components["schemas"]["ExerciseResponse"];
-        };
-        UnprocessableEntity: {
-            error: string;
-            details?: unknown[];
-        };
-        CreateWorkoutRequest: {
-            /** @example День ног */
-            name: string;
-            /**
+      isActive: boolean
+    }
+    SuccessMessage: {
+      message: string
+    }
+    WorkoutListResponse: {
+      data: components['schemas']['WorkoutResponse'][]
+      pagination: components['schemas']['PaginationResponse']
+    }
+    WorkoutResponse: {
+      /** Format: uuid */
+      id: string
+      name: string
+      description: string | null
+      isActive: boolean
+      /** Format: uuid */
+      creatorId: string
+      /** Format: date-time */
+      createdAt: string
+      /** Format: date-time */
+      updatedAt: string
+      exercises: components['schemas']['WorkoutExerciseResponse'][]
+    }
+    WorkoutExerciseResponse: {
+      /** Format: uuid */
+      id: string
+      /** Format: uuid */
+      exerciseId: string
+      order: number
+      sets: number
+      repetitions: number
+      weight: number
+      exercise: components['schemas']['ExerciseResponse']
+    }
+    UnprocessableEntity: {
+      error: string
+      details?: unknown[]
+    }
+    CreateWorkoutRequest: {
+      /** @example День ног */
+      name: string
+      /**
              * @description Описание цели тренировки
              * @example Тяжелая тренировка на низ
              */
-            description?: string | null;
-            /**
+      description?: string | null
+      /**
              * @default true
              * @example true
              */
-            isActive: boolean;
-            /** @default [] */
-            exercises: components["schemas"]["WorkoutExerciseItemRequest"][];
-        };
-        WorkoutExerciseItemRequest: {
-            /**
+      isActive: boolean
+      /** @default [] */
+      exercises: components['schemas']['WorkoutExerciseItemRequest'][]
+    }
+    WorkoutExerciseItemRequest: {
+      /**
              * Format: uuid
              * @description UUID упражнения из справочника
              * @example 123e4567-e89b-12d3-a456-426614174000
              */
-            exerciseId: string;
-            /**
+      exerciseId: string
+      /**
              * @description Порядок выполнения упражнения
              * @default 1
              * @example 1
              */
-            order: number;
-            /**
+      order: number
+      /**
              * @description Количество подходов
              * @default 0
              * @example 3
              */
-            sets: number;
-            /**
+      sets: number
+      /**
              * @description Точное число повторений (строго repetitions, не reps)
              * @default 0
              * @example 10
              */
-            repetitions: number;
-            /**
+      repetitions: number
+      /**
              * @description Рабочий вес в кг (0 для упражнений с собственным весом)
              * @default 0
              * @example 50.5
              */
-            weight: number;
-        };
-        UpdateWorkoutRequest: {
-            /** @example День ног */
-            name?: string;
-            /**
+      weight: number
+    }
+    UpdateWorkoutRequest: {
+      /** @example День ног */
+      name?: string
+      /**
              * @description Описание цели тренировки
              * @example Тяжелая тренировка на низ
              */
-            description?: string | null;
-            /**
+      description?: string | null
+      /**
              * @default true
              * @example true
              */
-            isActive: boolean;
-            /** @default [] */
-            exercises: components["schemas"]["WorkoutExerciseItemRequest"][];
-        };
-        AddExerciseToWorkoutRequest: {
-            /** Format: uuid */
-            exerciseId: string;
-            /** @default 1 */
-            order: number;
-            /** @default 0 */
-            sets: number;
-            /** @default 0 */
-            repetitions: number;
-            /** @default 0 */
-            weight: number;
-        };
-        UpdateWorkoutExerciseRequest: {
-            /** @default 1 */
-            order: number;
-            /** @default 0 */
-            sets: number;
-            /** @default 0 */
-            repetitions: number;
-            /** @default 0 */
-            weight: number;
-        };
-        WorkoutAssignment: {
-            /** Format: uuid */
-            id: string;
-            /** Format: uuid */
-            workoutId: string;
-            /** Format: uuid */
-            userId: string;
-            /** Format: date-time */
-            assignedAt: string;
-            workout: components["schemas"]["WorkoutResponse"];
-        };
-        AssignWorkoutInput: {
-            /**
+      isActive: boolean
+      /** @default [] */
+      exercises: components['schemas']['WorkoutExerciseItemRequest'][]
+    }
+    AddExerciseToWorkoutRequest: {
+      /** Format: uuid */
+      exerciseId: string
+      order?: number
+      /** @default 0 */
+      sets: number
+      /** @default 0 */
+      repetitions: number
+      /** @default 0 */
+      weight: number
+    }
+    UpdateWorkoutExerciseRequest: {
+      order?: number
+      /** @default 0 */
+      sets: number
+      /** @default 0 */
+      repetitions: number
+      /** @default 0 */
+      weight: number
+    }
+    WorkoutAssignment: {
+      /** Format: uuid */
+      id: string
+      /** Format: uuid */
+      workoutId: string
+      /** Format: uuid */
+      userId: string
+      /** Format: date-time */
+      assignedAt: string
+      workout: components['schemas']['WorkoutResponse']
+    }
+    AssignWorkoutInput: {
+      /**
              * Format: uuid
              * @description UUID шаблона тренировки
              * @example 123e4567-e89b-12d3-a456-426614174000
              */
-            workoutId: string;
-            /**
+      workoutId: string
+      /**
              * Format: uuid
              * @description UUID пользователя (должен быть спортсменом)
              * @example 123e4567-e89b-12d3-a456-426614174001
              */
-            userId: string;
-        };
-        AssignmentListResponse: {
-            data: components["schemas"]["WorkoutAssignment"][];
-            pagination: components["schemas"]["PaginationResponse"];
-        };
-        CreateSessionRequest: {
-            /** Format: uuid */
-            workoutId: string;
-            /** Format: uuid */
-            userId: string;
-            /** Format: date-time */
-            scheduledAt: string;
-            /**
+      userId: string
+    }
+    AssignmentListResponse: {
+      data: components['schemas']['WorkoutAssignment'][]
+      pagination: components['schemas']['PaginationResponse']
+    }
+    CreateSessionRequest: {
+      /** Format: uuid */
+      workoutId: string
+      /** Format: date-time */
+      scheduledAt: string
+      /**
              * @default PLANNED
              * @enum {string}
              */
-            status: "PLANNED" | "COMPLETED" | "SKIPPED";
-            notes?: string;
-        };
-        UpdateSessionStatusRequest: {
-            /** Format: uuid */
-            sessionId: string;
-            /** @enum {string} */
-            status: "PLANNED" | "COMPLETED" | "SKIPPED";
-            notes?: string;
-        };
-        UpdateSessionSetRequest: {
-            /** Format: uuid */
-            setId: string;
-            weight: number;
-            repetitions: number;
-            isCompleted: boolean;
-        };
-        AddSessionSetRequest: {
-            /** Format: uuid */
-            sessionExerciseId: string;
-            order: number;
-            weight: number;
-            repetitions: number;
-            /** @default false */
-            isCompleted: boolean;
-        };
-        DeleteSessionSetRequest: {
-            /** Format: uuid */
-            setId: string;
-        };
-    };
-    responses: never;
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+      status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
+      notes?: string
+    }
+    UpdateSessionStatusRequest: {
+      /** Format: uuid */
+      sessionId: string
+      /** @enum {string} */
+      status: 'PLANNED' | 'COMPLETED' | 'SKIPPED'
+      notes?: string
+    }
+    UpdateSessionSetRequest: {
+      /** Format: uuid */
+      setId: string
+      weight: number
+      repetitions: number
+      isCompleted: boolean
+    }
+    AddSessionSetRequest: {
+      /** Format: uuid */
+      sessionExerciseId: string
+      order: number
+      weight: number
+      repetitions: number
+      /** @default false */
+      isCompleted: boolean
+    }
+    DeleteSessionSetRequest: {
+      /** Format: uuid */
+      setId: string
+    }
+  }
+  responses: never
+  parameters: never
+  requestBodies: never
+  headers: never
+  pathItems: never
 }
-export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export type $defs = Record<string, never>
+export type operations = Record<string, never>

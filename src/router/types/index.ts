@@ -14,3 +14,9 @@ export enum RouterNames {
   WorkoutSessionsPage = 'WorkoutSessionsPage',
   WorkoutSessionPage = 'WorkoutSessionPage',
 }
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    requiresRole?: string
+  }
+}
