@@ -12,7 +12,11 @@ import {
   getErrorMessage,
   unwrap,
 } from '@/utils/apiError'
-import type { User } from '@/stores/auth/types'
+import type {
+  AuthResponse,
+  RegisterInput,
+  User,
+} from '@/stores/auth/types'
 
 export const useAuthStore = defineStore(
   'auth',
@@ -43,12 +47,7 @@ export const useAuthStore = defineStore(
           },
         ))
 
-        token.value = data.token
-        user.value = data.user
-        localStorage.setItem(
-          'token',
-          data.token,
-        )
+        setSession(data)
 
         return data
       }
@@ -62,6 +61,45 @@ export const useAuthStore = defineStore(
       finally {
         isLoading.value = false
       }
+    }
+
+    // Регистрация сразу авторизует пользователя — так же, как вход
+    async function register(input: RegisterInput) {
+      isLoading.value = true
+      error.value = null
+
+      try {
+        const data = await unwrap(api.POST(
+          '/auth/registration',
+          {
+            body: input,
+          },
+        ))
+
+        setSession(data)
+
+        return data
+      }
+      catch (err) {
+        error.value = getErrorMessage(
+          err,
+          'Ошибка при регистрации',
+        )
+        throw err
+      }
+      finally {
+        isLoading.value = false
+      }
+    }
+
+    function setSession(data: AuthResponse) {
+      token.value = data.token
+      user.value = data.user
+      isInitialized.value = true
+      localStorage.setItem(
+        'token',
+        data.token,
+      )
     }
 
     async function fetchMe() {
@@ -131,6 +169,7 @@ export const useAuthStore = defineStore(
       isAthlete,
       isAdmin,
       login,
+      register,
       fetchMe,
       logout,
       init,

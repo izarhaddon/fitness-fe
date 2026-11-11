@@ -1,13 +1,10 @@
 // src/components/forms/RegistrationForm/RegistrationForm.vue
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { api } from '@/utils/api.ts'
-import {
-  getErrorMessage,
-  unwrap,
-} from '@/utils/apiError'
+import { useAuthStore } from '@/stores/auth'
 import { registerSchema } from '@/components/forms/RegistrationForm/schemas'
 import UIButton from '@/components/UIButton.vue'
 import UITextInput from '@/components/UITextInput.vue'
@@ -15,6 +12,7 @@ import UISelect from '@/components/UISelect.vue'
 import UIErrorMessage from '@/components/UIErrorMessage.vue'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
 const email = ref<string>('')
 const password = ref<string>('')
@@ -53,24 +51,12 @@ const onSubmit = async () => {
   }
 
   try {
-    const data = await unwrap(api.POST(
-      '/auth/registration',
-      {
-        body: result.data,
-      },
-    ))
-
-    localStorage.setItem(
-      'token',
-      data.token,
-    )
+    // Через стор: он сохраняет и токен, и пользователя, иначе роутер считает пользователя неавторизованным
+    await authStore.register(result.data)
     await router.push('/')
   }
-  catch (err) {
-    formError.value = getErrorMessage(
-      err,
-      'Ошибка при регистрации',
-    )
+  catch {
+    formError.value = authStore.error || 'Ошибка при регистрации'
   }
   finally {
     isLoading.value = false
